@@ -27,6 +27,7 @@
         public virtual void Destroy()
         {
             isDestroyed = true;
+            Active = false;
         }
 
         public bool InsideBounds(Vector2 position)
