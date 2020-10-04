@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGEngine2", "RPGEngine2.csproj", "{F2B4DBC9-7DCA-4EDD-9B5F-3C243FB40F40}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPG", "..\RPG\RPG.csproj", "{3E94E617-4582-41BF-85D9-5C30929573B2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F2B4DBC9-7DCA-4EDD-9B5F-3C243FB40F40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2B4DBC9-7DCA-4EDD-9B5F-3C243FB40F40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2B4DBC9-7DCA-4EDD-9B5F-3C243FB40F40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2B4DBC9-7DCA-4EDD-9B5F-3C243FB40F40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E94E617-4582-41BF-85D9-5C30929573B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E94E617-4582-41BF-85D9-5C30929573B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E94E617-4582-41BF-85D9-5C30929573B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E94E617-4582-41BF-85D9-5C30929573B2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F24F3F14-64B5-4864-8C3C-5A66F13175A3}
+	EndGlobalSection
+EndGlobal
