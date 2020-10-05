@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RPGEngine2.InputSystem;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
@@ -7,7 +8,7 @@ namespace RPGEngine2
 {
     public static class EngineMain
     {
-        public const int FPS_CAP = 60;
+        public const int FPS_CAP = 120;
         private const int TIME_PER_FRAME = 1000 / FPS_CAP;
         public static float DeltaTime { get; private set; } = 1;
         
@@ -28,7 +29,6 @@ namespace RPGEngine2
 
             Renderer.ScreenHeight = (short)(Console.WindowHeight - 1);
             Renderer.ScreenWidth = (short)(Console.WindowWidth);
-            InputSystem.Main.Refresh();
             
 
             Console.CursorVisible = false;
@@ -40,11 +40,11 @@ namespace RPGEngine2
             {
                 // Cycles & Time
                 DeltaTime = sw.ElapsedMilliseconds / 1000f;
-                Console.Title = "FPS: " + 1f / DeltaTime;
+                Console.Title = "FPS: " + Math.Floor(1f / DeltaTime);
                 sw.Restart();
 
                 // Input
-                InputSystem.Main.Refresh();
+                InputDeviceHandler.RefreshDevices();
 
                 // Logic
                 OnUpdate?.Invoke();
@@ -88,7 +88,13 @@ namespace RPGEngine2
                         break;
 
                     case UIElementBase uiElement:
-                        bool hoverFrame = uiElement.InsideBounds(new Vector2(InputSystem.Mouse.x, InputSystem.Mouse.y));
+                        if (InputDeviceHandler.InternalMouseDevice is null)
+                        {
+                            uiElement.Update();
+                            break;
+                        }
+
+                        bool hoverFrame = uiElement.InsideBounds(new Vector2(InputDeviceHandler.InternalMouseDevice.x, InputDeviceHandler.InternalMouseDevice.y));
                         UIElementBase.HoverState previousHoverState = uiElement.CurrentHoverState;
 
                         if (hoverFrame)
@@ -102,7 +108,7 @@ namespace RPGEngine2
                                 uiElement.CurrentHoverState = UIElementBase.HoverState.Enter;
                             }
                         }
-                        else //if (uiElement.Hovered)
+                        else
                         {
                             if (uiElement.CurrentHoverState == UIElementBase.HoverState.Stay || uiElement.CurrentHoverState == UIElementBase.HoverState.Enter)
                             {
@@ -112,11 +118,7 @@ namespace RPGEngine2
                             {
                                 uiElement.CurrentHoverState = UIElementBase.HoverState.None;
                             }
-
-                            //uiElement.HoverLeave();
                         }
-
-                        //uiElement.Hovered = hoverFrame;
 
                         if (uiElement.CurrentHoverState != previousHoverState)
                         {

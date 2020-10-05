@@ -53,7 +53,9 @@
     <Compile Include="EngineMain.cs" />
     <Compile Include="GameObjectBase.cs" />
     <Compile Include="InputSystem\InputSystemOld.cs" />
-    <Compile Include="InputSystem\Main.cs" />
+    <Compile Include="InputSystem\IInputDevice.cs" />
+    <Compile Include="InputSystem\Keyboard.cs" />
+    <Compile Include="InputSystem\InputDeviceHandler.cs" />
     <Compile Include="InputSystem\Mouse.cs" />
     <Compile Include="Particle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

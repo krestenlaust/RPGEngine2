@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace RPGEngine2
 {
+    [Obsolete("Old input system, is to be removed when the new one is finished.")]
     public static class InputSystemOld
     {
         private const int STD_INPUT_HANDLE = -10;
