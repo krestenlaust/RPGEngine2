@@ -52,7 +52,9 @@
     <Compile Include="BaseObject.cs" />
     <Compile Include="EngineMain.cs" />
     <Compile Include="GameObjectBase.cs" />
-    <Compile Include="InputSystem.cs" />
+    <Compile Include="InputSystem\InputSystemOld.cs" />
+    <Compile Include="InputSystem\Main.cs" />
+    <Compile Include="InputSystem\Mouse.cs" />
     <Compile Include="Particle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderer.cs" />

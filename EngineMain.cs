@@ -28,7 +28,8 @@ namespace RPGEngine2
 
             Renderer.ScreenHeight = (short)(Console.WindowHeight - 1);
             Renderer.ScreenWidth = (short)(Console.WindowWidth);
-            InputSystem.Initialize();
+            InputSystem.Main.Refresh();
+            
 
             Console.CursorVisible = false;
 
@@ -43,11 +44,11 @@ namespace RPGEngine2
                 sw.Restart();
 
                 // Input
-                InputSystem.Refresh();
+                InputSystem.Main.Refresh();
 
                 // Logic
                 OnUpdate?.Invoke();
-                UpdateBaseObject(baseObjects);
+                UpdateBaseObjects(baseObjects);
 
                 // Render & draw
                 Renderer.ResetScreenBuffers();
@@ -72,7 +73,7 @@ namespace RPGEngine2
         }
 
 
-        private static void UpdateBaseObject(List<BaseObject> baseObjects)
+        private static void UpdateBaseObjects(List<BaseObject> baseObjects)
         {
             foreach (BaseObject item in baseObjects)
             {
@@ -100,15 +101,6 @@ namespace RPGEngine2
                             {
                                 uiElement.CurrentHoverState = UIElementBase.HoverState.Enter;
                             }
-
-                            /*if (uiElement.Hovered)
-                            {
-                                uiElement.HoverStay();
-                            }
-                            else
-                            {
-                                uiElement.HoverEnter();
-                            }*/
                         }
                         else //if (uiElement.Hovered)
                         {
@@ -142,53 +134,5 @@ namespace RPGEngine2
                 item.Render();
             }
         }
-
-        /*
-        private static void UpdateGameObjects(List<GameObjectBase> gameObjects)
-        {
-            foreach (GameObjectBase item in gameObjects)
-            {
-                if (item is null || !item.Active)
-                    continue;
-
-                item.Update();
-                item.InternalPosition += item.Velocity * DeltaTime;
-
-                item.Render();
-            }
-        }
-
-        private static void UpdateUIElements(List<UIElementBase> elements)
-        {
-            foreach (UIElementBase item in elements)
-            {
-                if (item is null || !item.Active)
-                    continue;
-
-                bool hoverFrame = item.InsideBounds(new Vector2(InputSystem.Mouse.x, InputSystem.Mouse.y));
-                if (hoverFrame)
-                {
-                    if (item.Hovered)
-                    {
-                        item.HoverStay();
-                    }
-                    else
-                    {
-                        item.HoverEnter();
-                    }
-                }
-                else if (item.Hovered)
-                {
-                    item.HoverLeave();
-                }
-                item.Hovered = hoverFrame;
-
-                item.Update();
-                item.Render();
-            }
-        }*/
-
-        
-
     }
 }

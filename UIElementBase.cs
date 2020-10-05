@@ -10,7 +10,6 @@
             Stay = 3,
         }
         public HoverState CurrentHoverState;
-        //public bool Hovered = false;
         public bool Hovered { get
             {
                 return CurrentHoverState == HoverState.Enter || CurrentHoverState == HoverState.Stay;
@@ -23,28 +22,6 @@
         public virtual void HoverUpdate()
         {
         }
-
-        /*
-        /// <summary>
-        /// Triggered once mouse enters.
-        /// </summary>
-        public virtual void HoverEnter()
-        {
-        }
-
-        /// <summary>
-        /// Triggered once mouse leaves.
-        /// </summary>
-        public virtual void HoverLeave()
-        {
-        }
-
-        /// <summary>
-        /// Triggered every frame while the mouse hovers.
-        /// </summary>
-        public virtual void HoverStay()
-        {
-        }*/
 
         protected static void DrawBorder(char[] screen, int screenWidth, char borderchar)
         {

@@ -15,8 +15,6 @@ namespace RPGEngine2
         public static void ResetScreenBuffers()
         {
             ScreenBuffer = new char[ScreenWidth * ScreenHeight];
-            //ScreenBufferUI = new char[ScreenWidth * ScreenHeight];
-            //ScreenBufferGame = new char[ScreenWidth * ScreenHeight];
         }
 
         public static void PerformRendering(List<BaseObject> baseObjects)
@@ -26,26 +24,9 @@ namespace RPGEngine2
 
         public static void WriteStandardOut()
         {
-            /*
-            char[] outputArray = new char[ScreenBufferGame.Length];
-            for (int i = 0; i < ScreenBufferGame.Length; i++)
-            {
-                if (ScreenBufferUI[i] == '\0')
-                    outputArray[i] = ScreenBufferGame[i];
-                else
-                    outputArray[i] = ScreenBufferUI[i];
-            }*/
-
             Console.SetCursorPosition(0, 0);
             Console.Write(ScreenBuffer);
-            //Console.Write(outputArray);
         }
-        /*
-        private static void CompositeScreenBuffer(List<UIElementBase> uiElements, List<GameObjectBase> gameObjects)
-        {
-            FillScreenBuffer(ScreenBufferUI, uiElements, ScreenWidth, ScreenHeight);
-            FillScreenBuffer(ScreenBufferGame, gameObjects, ScreenWidth, ScreenHeight);
-        }*/
 
         /// <summary>
         /// 
@@ -107,36 +88,5 @@ namespace RPGEngine2
                     );
             }
         }
-
-        /*
-        private static void FillScreenBuffer(char[] buffer, List<GameObjectBase> gameObjects, int screenWidth, int screenHeight)
-        {
-            var sortedGameObjects = from obj in gameObjects
-                                    orderby obj.ZIndex descending
-                                    select obj;
-
-            foreach (GameObjectBase item in sortedGameObjects)
-            {
-                if (!item.Active)
-                    continue;
-
-                CompositeMatrix(item.RecentRendered, item.InternalPosition.RoundX, item.InternalPosition.RoundY, item.Size.RoundX, buffer, screenWidth, screenHeight);
-            }
-        }
-
-        private static void FillScreenBuffer(char[] buffer, List<UIElementBase> elements, int screenWidth, int screenHeight)
-        {
-            var sortedUIElements = from obj in elements
-                                   orderby obj.ZIndex descending
-                                   select obj;
-
-            foreach (UIElementBase item in sortedUIElements)
-            {
-                if (!item.Active)
-                    continue;
-
-                CompositeMatrix(item.RecentRendered, item.InternalPosition.RoundX, item.InternalPosition.RoundY, item.Size.RoundX, buffer, screenWidth, screenHeight, true);
-            }
-        }*/
     }
 }

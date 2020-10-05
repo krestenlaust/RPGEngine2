@@ -1,10 +1,10 @@
-﻿//using ConsoleInput;
+﻿using RPGEngine2;
 using System;
 using System.Runtime.InteropServices;
 
-namespace RPGEngine2
+namespace RPGEngine2.InputSystem
 {
-    public static class InputSystem
+    internal static class Main
     {
         private const int STD_INPUT_HANDLE = -10;
         private const uint ENABLE_EXTENDED_FLAGS = 0x0080;
@@ -156,7 +156,7 @@ namespace RPGEngine2
 
             Mouse.Update();
         }
-
+        /*
         public static class Mouse
         {
             public const int MOUSE_BUTTON_COUNT = 5;
@@ -225,7 +225,7 @@ namespace RPGEngine2
                 }
             }
         }
-
+        */
         public static void Initialize()
         {
             Setup(false);
