@@ -8,10 +8,10 @@ namespace RPGEngine2
 {
     public static class EngineMain
     {
-        public const int FPS_CAP = 120;
+        private const int FPS_CAP = 120;
         private const int TIME_PER_FRAME = 1000 / FPS_CAP;
-        public static float DeltaTime { get; private set; } = 1;
         
+        public static float DeltaTime { get; private set; } = 1;
         private static readonly List<BaseObject> baseObjects = new List<BaseObject>();
         private static readonly List<BaseObject> instantiatedBaseObjects = new List<BaseObject>();
         private static bool isRunning;
@@ -40,7 +40,7 @@ namespace RPGEngine2
             {
                 // Cycles & Time
                 DeltaTime = (float)sw.Elapsed.TotalSeconds;
-                Console.Title = "FPS: " + Math.Floor(1f / DeltaTime);
+                Console.Title = "FPS: " + Math.Floor(1 / DeltaTime);
                 sw.Restart();
 
                 // Input

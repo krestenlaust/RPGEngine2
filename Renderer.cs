@@ -69,7 +69,7 @@ namespace RPGEngine2
         }
 
         /// <summary>
-        /// Draws objects'
+        /// Draws objects to the char array based on their position and size.
         /// </summary>
         /// <param name="buffer"></param>
         /// <param name="baseObjects"></param>

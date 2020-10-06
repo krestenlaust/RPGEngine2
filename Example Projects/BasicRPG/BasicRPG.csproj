@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F2B4DBC9-7DCA-4EDD-9B5F-3C243FB40F40}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>RPGGame2</RootNamespace>
-    <AssemblyName>RPGGame2</AssemblyName>
+    <ProjectGuid>{8D8B85DB-D1B9-4809-9E89-DC18C4BF3451}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>BasicRPG</RootNamespace>
+    <AssemblyName>BasicRPG</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -22,7 +22,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,10 +31,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>8.0</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -48,22 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Easings.cs" />
-    <Compile Include="BaseObject.cs" />
-    <Compile Include="EngineMain.cs" />
-    <Compile Include="GameObjectBase.cs" />
-    <Compile Include="InputSystem\IInputDevice.cs" />
-    <Compile Include="InputSystem\Keyboard.cs" />
-    <Compile Include="InputSystem\InputDeviceHandler.cs" />
-    <Compile Include="InputSystem\Mouse.cs" />
-    <Compile Include="Particle.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Renderer.cs" />
-    <Compile Include="UIElementBase.cs" />
-    <Compile Include="Vector2.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RPGGame2\RPGEngine2.csproj">
+      <Project>{f2b4dbc9-7dca-4edd-9b5f-3c243fb40f40}</Project>
+      <Name>RPGEngine2</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

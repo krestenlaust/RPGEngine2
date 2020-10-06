@@ -1,7 +1,7 @@
 ﻿
 namespace RPGEngine2
 {
-    public class Particle : GameObjectBase
+    public abstract class Particle : GameObjectBase
     {
         protected bool[,] InitialState;
         protected bool[,] CurrentState;

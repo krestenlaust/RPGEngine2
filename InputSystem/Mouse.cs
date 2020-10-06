@@ -120,43 +120,42 @@ namespace RPGEngine2.InputSystem
         [DllImport("kernel32.dll", EntryPoint = "WriteConsoleInputW", CharSet = CharSet.Unicode, SetLastError = true)]
         private static extern bool WriteConsoleInput(IntPtr hConsoleInput, INPUT_RECORD[] lpBuffer, uint nLength, out uint lpNumberOfEventsWritten);
 
-        private static IntPtr StdInHandle;
+        private static IntPtr stdInHandle;
 
+        private readonly bool[] mouseDown = new bool[MOUSE_BUTTON_COUNT];
+        private readonly bool[] mouseUp = new bool[MOUSE_BUTTON_COUNT];
+        private readonly bool[] mousePress = new bool[MOUSE_BUTTON_COUNT];
 
-
-        private readonly bool[] MouseDown = new bool[MOUSE_BUTTON_COUNT];
-        private readonly bool[] MouseUp = new bool[MOUSE_BUTTON_COUNT];
-        private readonly bool[] MousePress = new bool[MOUSE_BUTTON_COUNT];
-        public short x = 0, y = 0;
+        public short x { get; private set; } = 0;
+        public short y { get; private set; } = 0;
 
         private readonly bool[] mouseDownPrevious = new bool[MOUSE_BUTTON_COUNT];
         private readonly bool[] mouseDownCurrent = new bool[MOUSE_BUTTON_COUNT];
 
         public Mouse()
         {
-
         }
 
         public Vector2 Position => new Vector2(x, y);
-        public bool ButtonReleased(int buttonIndex) => MouseUp[buttonIndex];
-        public bool ButtonDown(int buttonIndex) => MouseDown[buttonIndex];
-        public bool ButtonPressed(int buttonIndex) => MousePress[buttonIndex];
+        public bool ButtonReleased(int buttonIndex) => mouseUp[buttonIndex];
+        public bool ButtonDown(int buttonIndex) => mouseDown[buttonIndex];
+        public bool ButtonPressed(int buttonIndex) => mousePress[buttonIndex];
 
         public void Initialize()
         {
-            StdInHandle = GetStdHandle(STD_INPUT_HANDLE);
+            stdInHandle = GetStdHandle(STD_INPUT_HANDLE);
 
-            SetConsoleMode(StdInHandle, ENABLE_EXTENDED_FLAGS | ENABLE_MOUSE_INPUT);
+            SetConsoleMode(stdInHandle, ENABLE_EXTENDED_FLAGS | ENABLE_MOUSE_INPUT);
         }
 
         public void Update()
         {
-            GetNumberOfConsoleInputEvents(StdInHandle, out uint numberOfEvents);
+            GetNumberOfConsoleInputEvents(stdInHandle, out uint numberOfEvents);
             INPUT_RECORD[] inputBuffer = new INPUT_RECORD[numberOfEvents];
 
             if (numberOfEvents > 0)
             {
-                ReadConsoleInput(StdInHandle, inputBuffer, numberOfEvents, out numberOfEvents);
+                ReadConsoleInput(stdInHandle, inputBuffer, numberOfEvents, out numberOfEvents);
             }
 
             INPUT_RECORD[] otherInputBuffer = new INPUT_RECORD[numberOfEvents];
@@ -177,28 +176,28 @@ namespace RPGEngine2.InputSystem
 
             if (REWRITE_UNUSED_INPUT)
             {
-                WriteConsoleInput(StdInHandle, otherInputBuffer, otherInputCount, out uint _);
+                WriteConsoleInput(stdInHandle, otherInputBuffer, otherInputCount, out uint _);
             }
 
 
             // mousebutton held down
             for (int i = 0; i < MOUSE_BUTTON_COUNT; i++)
             {
-                MouseUp[i] = false;
-                MousePress[i] = false;
+                mouseUp[i] = false;
+                mousePress[i] = false;
 
 
                 if (mouseDownCurrent[i] != mouseDownPrevious[i])
                 {
                     if (mouseDownCurrent[i])
                     {
-                        MousePress[i] = true;
-                        MouseDown[i] = true;
+                        mousePress[i] = true;
+                        mouseDown[i] = true;
                     }
                     else
                     {
-                        MouseUp[i] = true;
-                        MouseDown[i] = false;
+                        mouseUp[i] = true;
+                        mouseDown[i] = false;
                     }
                 }
 
