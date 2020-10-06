@@ -132,6 +132,11 @@ namespace RPGEngine2.InputSystem
         private readonly bool[] mouseDownPrevious = new bool[MOUSE_BUTTON_COUNT];
         private readonly bool[] mouseDownCurrent = new bool[MOUSE_BUTTON_COUNT];
 
+        public Mouse()
+        {
+
+        }
+
         public Vector2 Position => new Vector2(x, y);
         public bool ButtonReleased(int buttonIndex) => MouseUp[buttonIndex];
         public bool ButtonDown(int buttonIndex) => MouseDown[buttonIndex];
