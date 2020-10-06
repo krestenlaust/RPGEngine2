@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RPGGame2.InputSystem
+namespace RPGEngine2.InputSystem
 {
     public interface IInputDevice
     {

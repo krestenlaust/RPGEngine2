@@ -1,5 +1,4 @@
-﻿using RPGGame2.InputSystem;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 

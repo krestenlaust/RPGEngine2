@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace RPGGame2.InputSystem
+namespace RPGEngine2.InputSystem
 {
     public class Keyboard : IInputDevice
     {
