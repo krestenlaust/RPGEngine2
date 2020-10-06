@@ -68,6 +68,13 @@ namespace RPGEngine2
             }
         }
 
+        /// <summary>
+        /// Draws objects'
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="baseObjects"></param>
+        /// <param name="screenWidth"></param>
+        /// <param name="screenHeight"></param>
         private static void FillScreenBuffer(char[] buffer, List<BaseObject> baseObjects, int screenWidth, int screenHeight)
         {
             var sortedObjects = from obj in baseObjects

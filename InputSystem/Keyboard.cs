@@ -213,6 +213,11 @@ namespace RPGGame2.InputSystem
         private HashSet<Key> keyDownPrevious;
         private HashSet<Key> keyDownCurrent;
 
+        /// <summary>
+        /// Is true the initial frame <c>key</c> is held down, then false until released and pressed again.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public bool ButtonPressed(Key key)
         {
             if (isKeyDown(key))
@@ -227,7 +232,12 @@ namespace RPGGame2.InputSystem
 
             return false;
         }
-
+        
+        /// <summary>
+        /// Is true the first frame <c>key</c> is false, if it has been true until now. 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public bool ButtonReleased(Key key)
         {
             if (isKeyDown(key))
@@ -239,6 +249,11 @@ namespace RPGGame2.InputSystem
             return keyDownPrevious.Contains(key);
         }
 
+        /// <summary>
+        /// Is true when button is held down, NOTE: this includes when <c>ButtonPressed</c> is true.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public bool ButtonDown(Key key)
         {
             if (isKeyDown(key))

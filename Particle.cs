@@ -3,15 +3,26 @@ namespace RPGEngine2
 {
     public class Particle : GameObjectBase
     {
-        public Vector2 PositionOffset;
         protected bool[,] InitialState;
         protected bool[,] CurrentState;
         protected int TickDuration;
+        /// <summary>
+        /// The animation repeats.
+        /// </summary>
         protected bool isLooping;
-        protected int FrameCount = -1;
+        /// <summary>
+        /// Character that represents alive-cells.
+        /// </summary>
         protected char CellAlive;
+        /// <summary>
+        /// Character that represents dead-cells. Typically ' ' or '\0' (for transparency).
+        /// </summary>
         protected char CellDead;
+        /// TODO: Replace frame based animation with real-time based animation.
+        protected int FrameCount = -1;
         protected int FramesPerTick;
+
+        protected Vector2 PositionOffset;
 
         public override Vector2 Position 
         {
@@ -19,6 +30,9 @@ namespace RPGEngine2
             set => InternalPosition = value + PositionOffset; 
         }
 
+        /// <summary>
+        /// Called when the animation is finished, isn't triggered when <c>isLooping</c> is true. Called <i>just</i> before <c>Destroy()</c> is called.
+        /// </summary>
         public virtual void OnFinished()
         {
         }
@@ -108,6 +122,11 @@ namespace RPGEngine2
             }
         }
 
+        /// <summary>
+        /// Checks whether the current array has <c>true</c> in any of the borders.
+        /// </summary>
+        /// <param name="state"></param>
+        /// <returns></returns>
         private static bool NeedsExpanding(bool[,] state)
         {
             for (int x = 0; x < state.GetLength(0); x++)
@@ -127,6 +146,12 @@ namespace RPGEngine2
             return false;
         }
 
+        /// <summary>
+        /// Expands a rectangular array.
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="additionalSize"></param>
+        /// <returns></returns>
         private static bool[,] ExpandRectArray(bool[,] array, int additionalSize)
         {
             bool[,] newArray = new bool[array.GetLength(0) + additionalSize * 2, array.GetLength(1) + additionalSize * 2];

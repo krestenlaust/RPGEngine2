@@ -2,6 +2,9 @@
 {
     public abstract class UIElementBase : BaseObject
     {
+        /// <summary>
+        /// Used to represent the state of the mouse based on an element.
+        /// </summary>
         public enum HoverState
         {
             None = 0,
@@ -10,10 +13,16 @@
             Stay = 3,
         }
         public HoverState CurrentHoverState;
-        public bool Hovered { get
+        /// <summary>
+        /// True when mouse is hovering above element.
+        /// </summary>
+        public bool Hovered
+        { 
+            get
             {
                 return CurrentHoverState == HoverState.Enter || CurrentHoverState == HoverState.Stay;
-            } }
+            } 
+        }
         public override Vector2 Position { get => InternalPosition; set => InternalPosition = value; }
 
         /// <summary>
@@ -23,6 +32,12 @@
         {
         }
 
+        /// <summary>
+        /// Helper method to draw a border on a one-dimensional char-array.
+        /// </summary>
+        /// <param name="screen"></param>
+        /// <param name="screenWidth"></param>
+        /// <param name="borderchar"></param>
         protected static void DrawBorder(char[] screen, int screenWidth, char borderchar)
         {
             for (int i = 0; i < screen.Length; i++)

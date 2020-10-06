@@ -39,7 +39,7 @@ namespace RPGEngine2
             while (isRunning)
             {
                 // Cycles & Time
-                DeltaTime = sw.ElapsedMilliseconds / 1000f;
+                DeltaTime = (float)sw.Elapsed.TotalSeconds;
                 Console.Title = "FPS: " + Math.Floor(1f / DeltaTime);
                 sw.Restart();
 
