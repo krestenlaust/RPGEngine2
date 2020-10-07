@@ -78,11 +78,11 @@ namespace RPGEngine2
         private static void FillScreenBuffer(char[] buffer, List<BaseObject> baseObjects, int screenWidth, int screenHeight)
         {
             var sortedObjects = from obj in baseObjects
-                                    where !(obj is null) && obj.Active
+                                    where (!(obj is null) && obj.Active)
                                     orderby obj.ZIndex descending
                                     select obj;
 
-            foreach (BaseObject obj in baseObjects)
+            foreach (BaseObject obj in sortedObjects)
             {
                 CompositeMatrix(
                     obj.RecentRendered,

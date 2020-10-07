@@ -6,8 +6,8 @@ namespace RPGEngine2.InputSystem
 {
     public static class InputDeviceHandler
     {
-        private static readonly List<IInputDevice> inputDevices = new List<IInputDevice>();
         internal static Mouse InternalMouseDevice = null;
+        private static readonly List<IInputDevice> inputDevices = new List<IInputDevice>();
 
         public static void RefreshDevices()
         {
@@ -33,10 +33,7 @@ namespace RPGEngine2.InputSystem
             }
         }
 
-        public static T GetDevice<T>()
-        {
-            return inputDevices.OfType<T>().First();
-        }
+        public static T GetDevice<T>() => inputDevices.OfType<T>().First();
 
         public class DeviceAlreadyExistsException : Exception {
             public DeviceAlreadyExistsException()

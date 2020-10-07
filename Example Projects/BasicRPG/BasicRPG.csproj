@@ -50,7 +50,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RPGGame2\RPGEngine2.csproj">
+    <ProjectReference Include="..\..\RPGEngine2.csproj">
       <Project>{f2b4dbc9-7dca-4edd-9b5f-3c243fb40f40}</Project>
       <Name>RPGEngine2</Name>
     </ProjectReference>

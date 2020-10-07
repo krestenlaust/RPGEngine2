@@ -3,7 +3,6 @@ using RPGEngine2;
 using static RPGEngine2.EngineMain;
 using System.Collections.Generic;
 using RPGEngine2.InputSystem;
-using RPGGame2.InputSystem;
 
 namespace RPG
 {
@@ -42,7 +41,7 @@ namespace RPG
         {
             MainMenu.UpdateAnimation();
 
-            if (PlayerObj is null)
+            if (MainMenu.MenuShown || PlayerObj is null)
                 return;
 
             if (Keyboard.ButtonDown(Keyboard.Key.A) || Keyboard.ButtonDown(Keyboard.Key.Left))
@@ -63,51 +62,28 @@ namespace RPG
                 PlayerObj.Position += Vector2.Down * DeltaTime * movementSpeed;
             }
 
-            if (Keyboard.ButtonPressed(Keyboard.Key.Space))
+            if (Keyboard.ButtonPressed(Keyboard.Key.P))
             {
                 Progressbar newHealthbar = new Progressbar(6, '#', '\0');
+                Enemy newEnemy = new Enemy(newHealthbar, new Vector2(20, 20));
+                Instantiate(newHealthbar);
+                Instantiate(newEnemy);
+                Enemies.Add(newEnemy);
             }
-            /*
-            while (Console.KeyAvailable)
+
+            if (Keyboard.ButtonPressed(Keyboard.Key.Escape))
             {
-                ConsoleKey key = Console.ReadKey(true).Key;
+                MainMenu.EnableMenu();
+            }
 
-                switch (key)
-                {
-                    case ConsoleKey.A:
-                    case ConsoleKey.LeftArrow:
-                        PlayerObj.Position += Vector2.Left * 2;
-                        break;
-                    case ConsoleKey.W:
-                    case ConsoleKey.UpArrow:
-                        PlayerObj.Position += Vector2.Up;
-                        break;
-                    case ConsoleKey.D:
-                    case ConsoleKey.RightArrow:
-                        PlayerObj.Position += Vector2.Right * 2;
-                        break;
-                    case ConsoleKey.S:
-                    case ConsoleKey.DownArrow:
-                        PlayerObj.Position += Vector2.Down;
-                        break;
-                    case ConsoleKey.Spacebar:
-                        Progressbar newHealthbar = new Progressbar(6, '#', '\0');
-                        Enemy newEnemy = new Enemy(newHealthbar, new Vector2(40, 10));
-                        Instantiate(newHealthbar);
-                        Instantiate(newEnemy);
-                        Enemies.Add(newEnemy);
-                        break;
-                }
-            }*/
-
-            if (Mouse.ButtonPressed(0))
+            if (Mouse.ButtonReleased(0) || Keyboard.ButtonDown(Keyboard.Key.B))
             {
                 Vector2 velocity = (Mouse.Position - PlayerObj.Position).Normalize() * 10;
                 Instantiate(new Rocket(PlayerObj.Position, velocity, 2));
             }
 
             firetimer += DeltaTime;
-            if (Mouse.ButtonDown(1) && firetimer >= FireRate)
+            if ((Mouse.ButtonDown(1) || Keyboard.ButtonDown(Keyboard.Key.Space)) && firetimer >= FireRate)
             {
                 Vector2 velocity = Mouse.Position - PlayerObj.Position;
                 //double angleSpread = rand.NextDouble() * 2;

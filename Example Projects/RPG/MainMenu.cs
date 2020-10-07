@@ -14,9 +14,32 @@ namespace RPG
         private const int BUTTON_WIDTH = 20;
         private const int TARGET_X = 50;
 
+        public static bool MenuShown = true;
         public static float AnimationTime;
         public static bool isAnimating;
         private static MenuOption[] MainMenuButtons;
+
+        public static void DisableMenu()
+        {
+            MenuShown = false;
+            isAnimating = false;
+            for (int i = 0; i < MainMenuButtons.Length; i++)
+            {
+                MainMenuButtons[i].Active = false;
+            }
+        }
+
+        public static void EnableMenu()
+        {
+            MenuShown = true;
+            for (int i = 0; i < MainMenuButtons.Length; i++)
+            {
+                MainMenuButtons[i].Position = new Vector2(-BUTTON_WIDTH, MainMenuButtons[i].Position.y);
+                MainMenuButtons[i].Active = true;
+            }
+            AnimationTime = 0;
+            isAnimating = true;
+        }
 
         public static void LoadMenu()
         {
@@ -28,10 +51,7 @@ namespace RPG
                     new Vector2(startX, 4),
                     BUTTON_WIDTH,
                     delegate{
-                        for (int i = 0; i < MainMenuButtons.Length; i++)
-                        {
-                            MainMenuButtons[i].Destroy();
-                        }
+                        DisableMenu();
 
                         Progressbar healthbar = new Progressbar(8, '#', '\0');
                         Instantiate(healthbar);
