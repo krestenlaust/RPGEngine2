@@ -22,14 +22,6 @@ namespace RPGEngine2
         protected int FrameCount = -1;
         protected int FramesPerTick;
 
-        protected Vector2 PositionOffset;
-
-        public override Vector2 Position 
-        {
-            get => InternalPosition - PositionOffset;
-            set => InternalPosition = value + PositionOffset; 
-        }
-
         /// <summary>
         /// Called when the animation is finished, isn't triggered when <c>isLooping</c> is true. Called <i>just</i> before <c>Destroy()</c> is called.
         /// </summary>

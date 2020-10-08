@@ -16,6 +16,8 @@ namespace RPG.GameObjects
             Healthbar = healthbar;
             Size = new Vector2(1, 1);
             RecentRendered = new char[] { '%' };
+
+            PhysicsEnabled = true;
         }
 
         public override void Update()

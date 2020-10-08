@@ -19,11 +19,6 @@ namespace RPGEngine2.InputSystem
 
         public static void ActivateDevice(IInputDevice device)
         {
-            if (inputDevices.Contains(device))
-            {
-                throw new DeviceAlreadyExistsException();
-            }
-
             device.Initialize();
             inputDevices.Add(device);
 
@@ -35,10 +30,5 @@ namespace RPGEngine2.InputSystem
 
         public static T GetDevice<T>() => inputDevices.OfType<T>().First();
 
-        public class DeviceAlreadyExistsException : Exception {
-            public DeviceAlreadyExistsException()
-            {
-            }
-        }
     }
 }

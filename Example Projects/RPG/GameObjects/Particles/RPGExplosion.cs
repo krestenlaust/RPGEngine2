@@ -30,7 +30,7 @@ namespace RPG
             isLooping = false;
             Position = position;
             CellAlive = '#';
-            CellDead = ' ';
+            CellDead = '\0';
         }
 
         public override void OnFinished()
