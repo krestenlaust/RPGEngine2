@@ -3,6 +3,8 @@ using RPGEngine2;
 using static RPGEngine2.EngineMain;
 using System.Collections.Generic;
 using RPGEngine2.InputSystem;
+using System.Diagnostics.Contracts;
+using System;
 
 namespace RPG
 {
@@ -10,12 +12,14 @@ namespace RPG
     {
         public static Mouse Mouse;
         public static Keyboard Keyboard;
+        public static Controller Controller;
 
         public static Player PlayerObj;
         public static List<Enemy> Enemies = new List<Enemy>();
         public static readonly float FireRate = 0.18f;
         private static readonly float movementSpeed = 19;
         private static float firetimer = FireRate;
+        public static int controllerID;
 
         public static void Main(string[] args)
         {
@@ -29,10 +33,11 @@ namespace RPG
         {
             Mouse = new Mouse();
             Keyboard = new Keyboard();
+            Controller = new Controller();
             InputDeviceHandler.ActivateDevice(Mouse);
             InputDeviceHandler.ActivateDevice(Keyboard);
+            InputDeviceHandler.ActivateDevice(Controller);
 
-            //UIElements.Add(new AnimatedTextBox(new Vector2(10, 10), new Vector2(9, 4), "Start"));
             MainMenu.LoadMenu();
             MainMenu.isAnimating = true;
         }
@@ -44,28 +49,56 @@ namespace RPG
             if (MainMenu.MenuShown || PlayerObj is null)
                 return;
 
-            if (Keyboard.ButtonDown(Keyboard.Key.A) || Keyboard.ButtonDown(Keyboard.Key.Left))
+            if (Controller.TryGetUnassignedController(out int id))
             {
-                PlayerObj.Position += Vector2.Left * 2 * DeltaTime * movementSpeed;
-            }
-            else if (Keyboard.ButtonDown(Keyboard.Key.D) || Keyboard.ButtonDown(Keyboard.Key.Right))
-            {
-                PlayerObj.Position += Vector2.Right * 2 * DeltaTime * movementSpeed;
+                controllerID = id;
             }
 
-            if (Keyboard.ButtonDown(Keyboard.Key.W) || Keyboard.ButtonDown(Keyboard.Key.Up))
-            {
-                PlayerObj.Position += Vector2.Up * DeltaTime * movementSpeed;
-            }
-            else if (Keyboard.ButtonDown(Keyboard.Key.S) || Keyboard.ButtonDown(Keyboard.Key.Down))
-            {
-                PlayerObj.Position += Vector2.Down * DeltaTime * movementSpeed;
-            }
+            Vector2 shootingDirection = Vector2.Zero;
 
-            if (Keyboard.ButtonPressed(Keyboard.Key.P))
+            if (Controller.isControllerConnected(controllerID))
             {
+                Vector2 moveDirection = Controller.ThumbstickValues(Controller.Thumbstick.Left, controllerID) * new Vector2(2, 1);
+                PlayerObj.Position += moveDirection * DeltaTime * movementSpeed;
+
+                shootingDirection = Controller.ThumbstickValues(Controller.Thumbstick.Right, controllerID);
+                if (shootingDirection == Vector2.Zero)
+                {
+                    shootingDirection = Controller.ThumbstickValues(Controller.Thumbstick.Left, controllerID);
+                }
+            }
+            else
+            {
+                if (Keyboard.ButtonDown(Keyboard.Key.A) || Keyboard.ButtonDown(Keyboard.Key.Left))
+                {
+                    PlayerObj.Position += Vector2.Left * 2 * DeltaTime * movementSpeed;
+                }
+                else if (Keyboard.ButtonDown(Keyboard.Key.D) || Keyboard.ButtonDown(Keyboard.Key.Right))
+                {
+                    PlayerObj.Position += Vector2.Right * 2 * DeltaTime * movementSpeed;
+                }
+
+                if (Keyboard.ButtonDown(Keyboard.Key.W) || Keyboard.ButtonDown(Keyboard.Key.Up))
+                {
+                    PlayerObj.Position += Vector2.Up * DeltaTime * movementSpeed;
+                }
+                else if (Keyboard.ButtonDown(Keyboard.Key.S) || Keyboard.ButtonDown(Keyboard.Key.Down))
+                {
+                    PlayerObj.Position += Vector2.Down * DeltaTime * movementSpeed;
+                }
+
+                shootingDirection = (Mouse.Position - PlayerObj.Position).Normalize();
+            }
+            
+
+            if (Keyboard.ButtonPressed(Keyboard.Key.P) || Controller.ButtonPressed(Controller.Button.Y, controllerID))
+            {
+                Random rand = new Random();
+
+                Vector2 spawn = new Vector2(rand.Next(Console.WindowWidth), rand.Next(Console.WindowHeight));
+
                 Progressbar newHealthbar = new Progressbar(6, '#', '\0');
-                Enemy newEnemy = new Enemy(newHealthbar, new Vector2(20, 20));
+                Enemy newEnemy = new Enemy(newHealthbar, spawn);
                 Instantiate(newHealthbar);
                 Instantiate(newEnemy);
                 Enemies.Add(newEnemy);
@@ -76,20 +109,18 @@ namespace RPG
                 MainMenu.EnableMenu();
             }
 
-            if (Mouse.ButtonReleased(0) || Keyboard.ButtonDown(Keyboard.Key.B))
+            if (Mouse.ButtonReleased(0) || Keyboard.ButtonDown(Keyboard.Key.B) || Controller.ButtonPressed(Controller.Button.RightShoulder, controllerID))
             {
-                Vector2 velocity = (Mouse.Position - PlayerObj.Position).Normalize() * 10;
-                Instantiate(new Rocket(PlayerObj.Position, velocity, 2));
+                Instantiate(new Rocket(PlayerObj.Position, shootingDirection * 10, 2));
             }
 
             firetimer += DeltaTime;
-            if ((Mouse.ButtonDown(1) || Keyboard.ButtonDown(Keyboard.Key.Space)) && firetimer >= FireRate)
+            if ((Mouse.ButtonDown(1) || 
+                Keyboard.ButtonDown(Keyboard.Key.Space)) || 
+                Controller.TriggerValue(Controller.Trigger.Right, controllerID) > 0.1f && 
+                firetimer >= FireRate)
             {
-                Vector2 velocity = Mouse.Position - PlayerObj.Position;
-                //double angleSpread = rand.NextDouble() * 2;
-                //velocity += new Vector2((float)Math.Cos(angleSpread), (float)Math.Sin(angleSpread));
-
-                Instantiate(new MachineGunBullet(PlayerObj.Position, velocity.Normalize() * 20));
+                Instantiate(new MachineGunBullet(PlayerObj.Position, shootingDirection * 25));
                 firetimer = 0;
             }
         }

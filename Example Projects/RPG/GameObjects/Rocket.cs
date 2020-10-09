@@ -73,6 +73,7 @@ namespace RPG
 
             if (aliveTimer >= AliveDuration)
             {
+                GameCode.Controller.SetVibration(0.5f, 0, GameCode.controllerID);
                 Instantiate(new RPGExplosion(Position));
                 Destroy();
             }

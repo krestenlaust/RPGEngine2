@@ -177,7 +177,7 @@ namespace RPGEngine2
 
         public override string ToString()
         {
-            return $"({x.ToString(System.Globalization.CultureInfo.InvariantCulture)}, {y.ToString(System.Globalization.CultureInfo.InvariantCulture)})";
+            return $"({x}, {y})";
         }
         public static bool operator ==(Vector2 a, Vector2 b)
         {

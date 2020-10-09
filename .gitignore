@@ -348,3 +348,5 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+XInputDotNet/Examples/XInputTest.unity
+XInputDotNet/Examples/XInputTestCS.cs

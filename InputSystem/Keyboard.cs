@@ -211,7 +211,7 @@ namespace RPGEngine2.InputSystem
         private static extern short GetKeyState(Key nVirtKey);
         
         private HashSet<Key> keyDownPrevious;
-        private HashSet<Key> keyDownCurrent;
+        private HashSet<Key> keyDownCurrent = new HashSet<Key>();
 
         /// <summary>
         /// Is true the initial frame <c>key</c> is held down, then false until released and pressed again.
@@ -267,7 +267,6 @@ namespace RPGEngine2.InputSystem
 
         public void Initialize()
         {
-            keyDownCurrent = new HashSet<Key>();
         }
 
         public void Update()

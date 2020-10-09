@@ -1,0 +1,3 @@
+https://github.com/speps/XInputDotNet
+
+Note from Kresten: this is the latest version from the above repository.

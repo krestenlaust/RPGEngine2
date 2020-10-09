@@ -44,6 +44,7 @@ namespace RPG
                     item.HP -= Damage;
                 }
             }
+            GameCode.Controller.StopVibration(controllerID);
         }
     }
 }
