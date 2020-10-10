@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,6 +21,7 @@ namespace RPG
             Size = new Vector2(fullWidth, 1);
             Filled = filled;
             Empty = empty;
+            PositionOffset = new Vector2(-fullWidth / 2, 0);
 
             ZIndex = byte.MaxValue;
         }

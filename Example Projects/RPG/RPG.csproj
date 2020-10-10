@@ -58,6 +58,7 @@
     <Compile Include="UI\AnimatedTextBox.cs" />
     <Compile Include="GameObjects\Particles\RPGExplosion.cs" />
     <Compile Include="MainMenu.cs" />
+    <Compile Include="UI\ControllerConnectedMessage.cs" />
     <Compile Include="UI\MenuOption.cs" />
     <Compile Include="UI\Progressbar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -7,18 +7,25 @@ using System.Threading;
 
 namespace RPGEngine2
 {
+    // TODO: Come up with a fast and simple method for rendering debug strings.
+    // TODO: Make the particle system frame-independent; more TODOs in class.
+    // TODO: Make a configuration object to keep track of engine settings.
+    // TODO: Come up with a system for scaling the screen and make the game have a consistent resolution and size. Change font size.
     public static class EngineMain
     {
-        private const int FPS_CAP = 120;
+        private const int FPS_CAP = 0;
         private const int PHYSICS_FPS = 30;
-        private const int TIME_PER_FRAME = 1000 / FPS_CAP;
+        private const int TIME_PER_FRAME = 0; //1000 / FPS_CAP;
         private const int TIME_PER_PHYSICS_FRAME = 1000 / PHYSICS_FPS;
-        
+        private const float CONSOLE_TITLE_UPDATE_INTERVAL = 0.1f;
+
         public static float DeltaTime { get; private set; } = 1;
         public static float FixedDeltaTime { get; private set; } = 1;
         private static readonly List<BaseObject> baseObjects = new List<BaseObject>();
         private static readonly List<BaseObject> instantiatedBaseObjects = new List<BaseObject>();
         private static bool isRunning;
+        private static bool physicsFrame;
+        private static float updateConsoleTitleTimer = CONSOLE_TITLE_UPDATE_INTERVAL;
 
         public static event Action OnStart;
         public static event Action OnUpdate;
@@ -45,68 +52,76 @@ namespace RPGEngine2
 
             while (isRunning)
             {
-                // Cycles & Time
-                DeltaTime = (float)swUpdate.Elapsed.TotalSeconds;
-                Console.Title = "FPS: " + Math.Floor(1 / DeltaTime);
-                swUpdate.Restart();
-                
-                // Input
-                InputDeviceHandler.RefreshDevices();
+                if (FPS_CAP != 0)
+                {
+                    while (swUpdate.ElapsedMilliseconds < TIME_PER_FRAME && swFixedUpdate.ElapsedMilliseconds < TIME_PER_PHYSICS_FRAME)
+                        Thread.Sleep(1);
+                }
 
-                // Logic
-                OnUpdate?.Invoke();
-
-                bool physicsFrame = false;
-                if (swFixedUpdate.ElapsedMilliseconds > TIME_PER_PHYSICS_FRAME)
+                if (swUpdate.ElapsedMilliseconds >= TIME_PER_FRAME)
+                {
+                    DeltaTime = (float)swUpdate.Elapsed.TotalSeconds;
+                    swUpdate.Restart();
+                    
+                    UpdateFrame();
+                }
+                if (swFixedUpdate.ElapsedMilliseconds >= TIME_PER_PHYSICS_FRAME)
                 {
                     FixedDeltaTime = (float)swFixedUpdate.Elapsed.TotalSeconds;
                     swFixedUpdate.Restart();
-                    
-                    physicsFrame = true;
-                    OnFixedUpdate?.Invoke();
+
+                    FixedUpdateFrame();
                 }
-
-                UpdateBaseObjects(baseObjects, physicsFrame);
-
-                // Render & draw
-                Renderer.ResetScreenBuffers();
-                Renderer.PerformRendering(baseObjects);
-                Renderer.WriteStandardOut();
-
-                // High-level garbage collection
-                baseObjects.RemoveAll(gameObject => gameObject is null || gameObject.isDestroyed);
-
-                // Spawn instantiated objects
-                baseObjects.AddRange(instantiatedBaseObjects);
-                instantiatedBaseObjects.Clear();
-
-#pragma warning disable CS0162 // Unreachable code detected
-                if (FPS_CAP == 0)
-                    continue;
-#pragma warning restore CS0162 // Unreachable code detected
-
-                while (swUpdate.ElapsedMilliseconds < TIME_PER_FRAME)
-                    Thread.Sleep(1);
             }
         }
 
-        private static void UpdateBaseObjects(List<BaseObject> baseObjects, bool physicsFrame)
+        private static void UpdateFrame()
         {
-            List<GameObjectBase> physicsObjects;
-            if (physicsFrame)
+            updateConsoleTitleTimer += DeltaTime;
+            if (updateConsoleTitleTimer >= CONSOLE_TITLE_UPDATE_INTERVAL)
             {
-                physicsObjects = (from obj in baseObjects
-                                  where obj is GameObjectBase gameObject && gameObject.PhysicsEnabled
-                                  select obj).Cast<GameObjectBase>().ToList();
+                Console.Title = "FPS: " + Math.Floor(1 / DeltaTime);
+                updateConsoleTitleTimer -= CONSOLE_TITLE_UPDATE_INTERVAL;
             }
-            else
-            {
-                physicsObjects = new List<GameObjectBase>();
-            }
+
+            // Input
+            InputDeviceHandler.RefreshDevices();
+
+            // Logic
+            OnUpdate?.Invoke();
+
+            UpdateBaseObjects(baseObjects, physicsFrame);
+            physicsFrame = false;
+
+            // Render & draw
+            Renderer.ResetScreenBuffers();
+            Renderer.PerformRendering(baseObjects);
+            Renderer.WriteStandardOut();
+
+            // High-level garbage collection
+            baseObjects.RemoveAll(gameObject => gameObject is null || gameObject.isDestroyed);
+
+            // Spawn instantiated objects
+            baseObjects.AddRange(instantiatedBaseObjects);
+            instantiatedBaseObjects.Clear();
+        }
+
+        private static void FixedUpdateFrame()
+        {
+            physicsFrame = true;
+            OnFixedUpdate?.Invoke();
+        }
+
+        private static void UpdateBaseObjects(List<BaseObject> baseObjects, bool physics)
+        {
+            List<GameObjectBase> physicsObjects = null;
+            
+            if (physics)
+                physicsObjects = new List<GameObjectBase>(baseObjects.Count);
 
             foreach (BaseObject item in baseObjects)
             {
-                if (item is null || !item.Active)
+                if (item?.Active != true)
                     continue;
 
                 switch (item)
@@ -114,18 +129,11 @@ namespace RPGEngine2
                     case GameObjectBase gameObject:
                         gameObject.Update();
 
-                        if (physicsFrame)
+                        gameObject.InternalPosition += gameObject.Velocity * DeltaTime;
+
+                        if (physics && gameObject.PhysicsEnabled)
                         {
-                            gameObject.InternalPosition += gameObject.Velocity * FixedDeltaTime;
-
-                            var collidingObjects = (from obj in physicsObjects
-                                                   where obj != gameObject && Vector2.RectCollide(item.InternalPosition, item.Size, obj.Position, obj.Size)
-                                                   select obj).ToList();
-
-                            if (collidingObjects.Count > 0)
-                            {
-                                gameObject.Collision(collidingObjects);
-                            }
+                            physicsObjects.Add(gameObject);
                         }
                         break;
 
@@ -175,8 +183,16 @@ namespace RPGEngine2
                         break;
                 }
 
+                if (physics)
+                {
+                    Physics.GameObjectPhysics(physicsObjects);
+                }
+
+                // TODO: skal væk herfra, den hører ikke til.
                 item.Render();
             }
+
+
         }
     }
 }

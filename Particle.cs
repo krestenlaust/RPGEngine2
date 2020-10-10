@@ -1,6 +1,7 @@
 ﻿
 namespace RPGEngine2
 {
+    // TODO: Needs proper profiling and improved performance.
     public abstract class Particle : GameObjectBase
     {
         protected bool[,] InitialState;

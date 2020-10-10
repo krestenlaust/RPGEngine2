@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace RPGEngine2
 {
+    // TODO: Don't render things that are off-screen.
     public static class Renderer
     {
         public const bool IS_NULL_SEE_THROUGH = false;
@@ -78,8 +79,8 @@ namespace RPGEngine2
         private static void FillScreenBuffer(char[] buffer, List<BaseObject> baseObjects, int screenWidth, int screenHeight)
         {
             var sortedObjects = from obj in baseObjects
-                                    where (!(obj is null) && obj.Active)
-                                    orderby obj.ZIndex descending
+                                    where obj?.Active == true
+                                    orderby obj.ZIndex ascending
                                     select obj;
 
             foreach (BaseObject obj in sortedObjects)

@@ -1,5 +1,6 @@
 ﻿namespace RPGEngine2
 {
+    // TODO: Get rid of the RecentRendered thing and make the Render method return a char array as it should!
     public abstract class BaseObject
     {
         /// <summary>
@@ -23,7 +24,14 @@
         /// <summary>
         /// Can be implemented to for example, represent the middle of the object instead of the top-left corner.
         /// </summary>
-        public abstract Vector2 Position { get; set; }
+        //public abstract Vector2 Position { get; set; }
+        protected Vector2 PositionOffset;
+        public Vector2 Position
+        {
+            get => InternalPosition - PositionOffset;
+            set => InternalPosition = value + PositionOffset;
+        }
+
 
         /// <summary>
         /// Only called when <c>Active</c> is true.

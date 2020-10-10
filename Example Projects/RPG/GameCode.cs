@@ -1,13 +1,13 @@
-﻿using RPG.GameObjects;
+﻿using static RPGEngine2.EngineMain;
+using RPG.GameObjects;
 using RPGEngine2;
-using static RPGEngine2.EngineMain;
 using System.Collections.Generic;
 using RPGEngine2.InputSystem;
-using System.Diagnostics.Contracts;
 using System;
 
 namespace RPG
 {
+    // TODO: maybe play around with bullet-time?
     internal class GameCode
     {
         public static Mouse Mouse;
@@ -16,10 +16,10 @@ namespace RPG
 
         public static Player PlayerObj;
         public static List<Enemy> Enemies = new List<Enemy>();
-        public static readonly float FireRate = 0.18f;
+        public static readonly float FireRate = 0.1f;
         private static readonly float movementSpeed = 19;
         private static float firetimer = FireRate;
-        public static int controllerID;
+        public static int controllerID = -1;
 
         public static void Main(string[] args)
         {
@@ -44,14 +44,20 @@ namespace RPG
 
         public static void Update()
         {
+            if (controllerID == -1 && Controller.TryGetUnassignedController(out int id))
+            {
+                controllerID = id;
+            }
+
             MainMenu.UpdateAnimation();
 
             if (MainMenu.MenuShown || PlayerObj is null)
-                return;
-
-            if (Controller.TryGetUnassignedController(out int id))
             {
-                controllerID = id;
+                if (Controller.ButtonPressed(Controller.Button.A, controllerID))
+                {
+                    MainMenu.StartGame();
+                }
+                return;
             }
 
             Vector2 shootingDirection = Vector2.Zero;
@@ -89,6 +95,8 @@ namespace RPG
 
                 shootingDirection = (Mouse.Position - PlayerObj.Position).Normalize();
             }
+
+            PlayerObj.LookingDirection = shootingDirection;
             
 
             if (Keyboard.ButtonPressed(Keyboard.Key.P) || Controller.ButtonPressed(Controller.Button.Y, controllerID))
@@ -109,18 +117,18 @@ namespace RPG
                 MainMenu.EnableMenu();
             }
 
-            if (Mouse.ButtonReleased(0) || Keyboard.ButtonDown(Keyboard.Key.B) || Controller.ButtonPressed(Controller.Button.RightShoulder, controllerID))
+            if (Mouse.ButtonReleased(0) || Keyboard.ButtonDown(Keyboard.Key.B) || Controller.ButtonDown(Controller.Button.RightShoulder, controllerID))
             {
-                Instantiate(new Rocket(PlayerObj.Position, shootingDirection * 10, 2));
+                Instantiate(new Rocket(PlayerObj.Position + Vector2.One, shootingDirection * 10, 2));
             }
 
             firetimer += DeltaTime;
-            if ((Mouse.ButtonDown(1) || 
-                Keyboard.ButtonDown(Keyboard.Key.Space)) || 
+            if (Mouse.ButtonDown(1) || 
+                Keyboard.ButtonDown(Keyboard.Key.Space) || 
                 Controller.TriggerValue(Controller.Trigger.Right, controllerID) > 0.1f && 
                 firetimer >= FireRate)
             {
-                Instantiate(new MachineGunBullet(PlayerObj.Position, shootingDirection * 25));
+                Instantiate(new MachineGunBullet(PlayerObj.Position + Vector2.One, shootingDirection * 25));
                 firetimer = 0;
             }
         }

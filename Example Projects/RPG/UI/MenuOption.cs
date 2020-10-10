@@ -6,7 +6,7 @@ namespace RPG.UI
 {
     public class MenuOption : UIElementBase
     {
-        // Stored as constants to prevent inconsistensies of styling.
+        // Stored as constants to prevent inconsistensies in styling.
         private const char DEFAULT_CHAR = '\u2588'; //2593
         private const char HOVER_CHAR = '\u2592';
         private const int TEXT_LEFT_MARGIN = 2;

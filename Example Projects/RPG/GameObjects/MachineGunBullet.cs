@@ -1,4 +1,5 @@
 ﻿using RPGEngine2;
+using System.Collections.Generic;
 using static RPGEngine2.EngineMain;
 
 namespace RPG.GameObjects
@@ -15,25 +16,27 @@ namespace RPG.GameObjects
             Velocity = velocity;
             Size = new Vector2(1, 1);
             RecentRendered = new char[] { '\'' };
+
+            PhysicsEnabled = true;
+        }
+
+        public override void Collision(List<GameObjectBase> gameObjects)
+        {
+            foreach (var item in gameObjects)
+            {
+                if (item is Enemy enemy)
+                {
+                    enemy.HP -= Damage;
+                    enemy.Position += Velocity.Normalize();
+                    Destroy();
+                    return;
+                }
+            }
         }
 
         public override void Update()
         {
             AliveTimer += DeltaTime;
-
-            foreach (var item in GameCode.Enemies)
-            {
-                if (Position.RoundX != item.Position.RoundX)
-                    continue;
-
-                if (Position.RoundY != item.Position.RoundY)
-                    continue;
-
-                item.HP -= Damage;
-                item.Position += Velocity.Normalize();
-                Destroy();
-                return;
-            }
 
             if (AliveTimer >= AliveDuration)
             {

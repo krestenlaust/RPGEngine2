@@ -23,7 +23,6 @@
                 return CurrentHoverState == HoverState.Enter || CurrentHoverState == HoverState.Stay;
             } 
         }
-        public override Vector2 Position { get => InternalPosition; set => InternalPosition = value; }
 
         /// <summary>
         /// As an alternative to using <c>Update</c> method for checking hover state, this method is called when <c>CurrentHoverState</c> changes (NOTE: Only once even while hoverstate is stay)

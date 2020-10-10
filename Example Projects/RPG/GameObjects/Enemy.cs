@@ -15,7 +15,7 @@ namespace RPG.GameObjects
             Position = position;
             Healthbar = healthbar;
             Size = new Vector2(1, 1);
-            RecentRendered = new char[] { '%' };
+            RecentRendered = new char[] { '\u2588' };
 
             PhysicsEnabled = true;
         }

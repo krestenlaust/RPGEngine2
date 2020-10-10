@@ -5,14 +5,17 @@ namespace RPG.GameObjects
 {
     public class Player : GameCharacter
     {
+        public Vector2 LookingDirection;
+
         public Player(Progressbar healthbar, Vector2 position)
         {
             Position = position;
-            Size = new Vector2(3, 1);
+            Size = new Vector2(3, 3);
             Healthbar = healthbar;
 
             HP = 50;
             MaxHP = 50;
+            ZIndex = 100;
         }
 
         public override void Update()
@@ -22,17 +25,12 @@ namespace RPG.GameObjects
 
         public override void Render()
         {
-            RecentRendered = new char[3];
-            RecentRendered[1] = '¤';
+            RecentRendered = new char[9];
 
-            if (Mouse.x > Position.x)
-            {
-                RecentRendered[2] = '—';
-            }
-            else if (Mouse.x < Position.x)
-            {
-                RecentRendered[0] = '—';
-            }
+            Vector2 lookpos = LookingDirection + Vector2.One;
+            RecentRendered[Size.RoundX * lookpos.RoundY + lookpos.RoundX] = '*';
+
+            RecentRendered[4] = '¤';
         }
     }
 }

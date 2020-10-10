@@ -14,12 +14,23 @@ namespace RPG
         private const int BUTTON_WIDTH = 20;
         private const int TARGET_X = 50;
 
-        public static bool MenuShown = true;
+        public static int SelectedMenuOption = 0;
+        public static bool MenuShown { get; private set; } = true;
         public static float AnimationTime;
         public static bool isAnimating;
         private static MenuOption[] MainMenuButtons;
 
-        public static void DisableMenu()
+        public static void StartGame()
+        {
+            DisableMenu();
+
+            Progressbar healthbar = new Progressbar(8, '#', '\0');
+            Instantiate(healthbar);
+            GameCode.PlayerObj = new Player(healthbar, new Vector2(20, 10));
+            Instantiate(GameCode.PlayerObj);
+        }
+
+        private static void DisableMenu()
         {
             MenuShown = false;
             isAnimating = false;
@@ -51,12 +62,7 @@ namespace RPG
                     new Vector2(startX, 4),
                     BUTTON_WIDTH,
                     delegate{
-                        DisableMenu();
-
-                        Progressbar healthbar = new Progressbar(8, '#', '\0');
-                        Instantiate(healthbar);
-                        GameCode.PlayerObj = new Player(healthbar, new Vector2(20, 10));
-                        Instantiate(GameCode.PlayerObj);
+                        StartGame();
                     }
                     ),
                 new MenuOption(
@@ -78,6 +84,7 @@ namespace RPG
 
         public static void UpdateAnimation()
         {
+            
             if (!isAnimating)
                 return;
 
