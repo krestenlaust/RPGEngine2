@@ -7,7 +7,6 @@ using System.Threading;
 namespace RPGEngine2
 {
     // TODO: Come up with a fast and simple method for rendering debug strings.
-    // TODO: Make the particle system frame-independent; more TODOs in class.
     // TODO: Make a configuration object to keep track of engine settings.
     // TODO: Come up with a system for scaling the screen and make the game have a consistent resolution and size. Change font size.
     public static class EngineMain
@@ -128,7 +127,7 @@ namespace RPGEngine2
                     case GameObjectBase gameObject:
                         gameObject.Update();
 
-                        gameObject.InternalPosition += gameObject.Velocity * DeltaTime;
+                        gameObject.InternalPosition += gameObject.Velocity * DeltaTime * Vector2.ScreenRatio;
 
                         if (physics && gameObject.PhysicsEnabled)
                         {
@@ -186,12 +185,7 @@ namespace RPGEngine2
                 {
                     Physics.GameObjectPhysics(physicsObjects);
                 }
-
-                // TODO: skal væk herfra, den hører ikke til.
-                item.Render();
             }
-
-
         }
     }
 }

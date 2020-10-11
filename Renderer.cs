@@ -86,7 +86,7 @@ namespace RPGEngine2
             foreach (BaseObject obj in sortedObjects)
             {
                 CompositeMatrix(
-                    obj.RecentRendered,
+                    obj.Render(),
                     obj.InternalPosition.RoundX,
                     obj.InternalPosition.RoundY,
                     obj.Size.RoundX,

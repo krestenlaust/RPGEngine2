@@ -7,7 +7,7 @@
         /// Size of the rectangle that represents the object, <c>Size.RoundX</c> and <c>Size.RoundY</c> are used.
         /// </summary>
         public Vector2 Size;
-        public char[] RecentRendered;
+        //public char[] RecentRendered;
         /// <summary>
         /// <c>Update()</c> and <c>Render()</c> is only called when <c>Active</c> is true.
         /// </summary>
@@ -34,14 +34,12 @@
 
 
         /// <summary>
-        /// Only called when <c>Active</c> is true.
+        /// Only called when <c>Active</c> is true and object is visible on screen. <i>Shouldn't</i> be used for logic.
         /// </summary>
-        public virtual void Render()
-        {
-        }
+        public abstract char[] Render();
 
         /// <summary>
-        /// Called before <c>Render</c>. Only called when <c>Active</c> is true.
+        /// Only called when <c>Active</c> is true. Called before <c>Render</c>. Should be used for logic.
         /// </summary>
         public virtual void Update()
         {

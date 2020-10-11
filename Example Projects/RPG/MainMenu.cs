@@ -64,9 +64,10 @@ namespace RPG
                         StartGame();
                     }
                     ),
+                new MenuOption("Options", new Vector2(startX, 12), BUTTON_WIDTH),
                 new MenuOption(
                     "Quit",
-                    new Vector2(startX, 12),
+                    new Vector2(startX, 20),
                     BUTTON_WIDTH,
                     delegate {
                         EngineStop();
@@ -83,7 +84,6 @@ namespace RPG
 
         public static void UpdateAnimation()
         {
-
             if (!isAnimating)
                 return;
 
@@ -95,7 +95,8 @@ namespace RPG
                 if (animationStartTime > AnimationTime)
                 {
                     // not time to animate yet.
-                    continue;
+                    //continue;
+                    break; // if the previous one shouldn't animate, then this one shouldn't either.
                 }
 
                 float animationEndTime = animationStartTime + ANIMATION_DURATION_PER_BUTTON;

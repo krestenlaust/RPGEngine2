@@ -6,16 +6,17 @@ namespace RPG.GameObjects
 {
     public class MachineGunBullet : GameObjectBase
     {
-        private int Damage = 5;
-        private readonly float AliveDuration = 2;
+        private readonly float Damage = 4;
+        private readonly float Speed = 1.5f;
+        private readonly float AliveDuration = 1.5f;
         private float AliveTimer;
+        private readonly char[] Appearence = new char[] { '\0', '*', '\0' };
 
         public MachineGunBullet(Vector2 startPosition, Vector2 velocity)
         {
             Position = startPosition;
-            Velocity = velocity;
-            Size = new Vector2(1, 1);
-            RecentRendered = new char[] { '\'' };
+            Velocity = velocity * Speed;
+            Size = new Vector2(3, 1);
 
             PhysicsEnabled = true;
         }
@@ -40,10 +41,11 @@ namespace RPG.GameObjects
 
             if (AliveTimer >= AliveDuration)
             {
-                RecentRendered = new char[] { '*' };
                 Destroy();
             }
         }
+
+        public override char[] Render() => Appearence;
     }
 
 }

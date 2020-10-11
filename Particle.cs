@@ -1,11 +1,12 @@
-﻿using static RPGEngine2.EngineMain;
+﻿using System.Collections.Generic;
+using static RPGEngine2.EngineMain;
 
 namespace RPGEngine2
 {
     // TODO: Needs proper profiling and improved performance.
-    // Maybe cache the animation instead of recalculating it every time.
     public abstract class Particle : GameObjectBase
     {
+        private static readonly Dictionary<bool[,], bool[,]> conwaysCacheOfLife = new Dictionary<bool[,], bool[,]>();
         /// <summary>
         /// The duration in ticks.
         /// </summary>
@@ -76,7 +77,33 @@ namespace RPGEngine2
                 InternalPosition -= Vector2.One;
             }
 
-            bool[,] nextState = new bool[CurrentState.GetLength(0), CurrentState.GetLength(1)];
+            CurrentState = CalculateNextState(CurrentState);
+        }
+
+        public override char[] Render()
+        {
+            char[] render = new char[CurrentState.Length];
+
+            for (int y = 0; y < CurrentState.GetLength(1); y++)
+            {
+                for (int x = 0; x < CurrentState.GetLength(0); x++)
+                {
+                    render[y * Size.RoundX + x] = CurrentState[x, y] ? CellAlive : CellDead;
+                }
+            }
+
+            return render;
+        }
+
+        private static bool[,] CalculateNextState(bool[,] state)
+        {
+
+            if (conwaysCacheOfLife.TryGetValue(state, out bool[,] nextState))
+            {
+                return (bool[,])nextState.Clone();
+            }
+
+            nextState = new bool[state.GetLength(0), state.GetLength(1)];
 
             for (int x = 0; x < nextState.GetLength(0); x++)
             {
@@ -88,11 +115,11 @@ namespace RPGEngine2
                         if (item.x < 0 || item.y < 0 || item.RoundX >= nextState.GetLength(0) || item.RoundY >= nextState.GetLength(1))
                             continue;
 
-                        if (CurrentState[item.RoundX, item.RoundY] == true)
+                        if (state[item.RoundX, item.RoundY] == true)
                             livingCells++;
                     }
 
-                    if (CurrentState[x, y] == true)
+                    if (state[x, y] == true)
                     {
                         if (livingCells < 2 || livingCells > 3)
                         {
@@ -107,24 +134,13 @@ namespace RPGEngine2
                         continue;
                     }
 
-                    nextState[x, y] = CurrentState[x, y];
+                    nextState[x, y] = state[x, y];
                 }
             }
 
-            CurrentState = nextState;
-        }
+            conwaysCacheOfLife[(bool[,])state.Clone()] = (bool[,])nextState.Clone();
 
-        public override void Render()
-        {
-            RecentRendered = new char[CurrentState.Length];
-
-            for (int y = 0; y < CurrentState.GetLength(1); y++)
-            {
-                for (int x = 0; x < CurrentState.GetLength(0); x++)
-                {
-                    RecentRendered[y * Size.RoundX + x] = CurrentState[x, y] ? CellAlive : CellDead;
-                }
-            }
+            return nextState;
         }
 
         /// <summary>

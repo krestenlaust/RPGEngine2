@@ -19,7 +19,6 @@ namespace RPG
             this.Position = Position;
             this.Size = Size;
             this.BoxText = BoxText;
-            this.RecentRendered = new char[Size.Product()];
 
             ZIndex = byte.MaxValue;
         }
@@ -78,9 +77,9 @@ namespace RPG
             }
         }
 
-        public override void Render()
+        public override char[] Render()
         {
-            RecentRendered = new char[RecentRendered.Length];
+            char[] render = new char[Size.Product()];
 
             for (int y = 0; y < Size.y; y++)
                 for (int x = 0; x < Size.x; x++)
@@ -88,7 +87,7 @@ namespace RPG
                     int index = (int)Size.x * y + x;
                     if (y == 0 || y == Size.y - 1 || x == 0 || x == Size.x - 1)
                     {
-                        RecentRendered[index] = BorderChar;
+                        render[index] = BorderChar;
                         continue;
                     }
 
@@ -96,7 +95,7 @@ namespace RPG
 
                     if (x <= 1 || y <= 0 || y > 2)
                     {
-                        RecentRendered[index] = ' ';
+                        render[index] = ' ';
                         continue;
                     }
 
@@ -104,25 +103,27 @@ namespace RPG
                     {
                         if (!Hovered || letterIndex != IndentedLetterIndex)
                         {
-                            RecentRendered[index] = ' ';
+                            render[index] = ' ';
                             continue;
                         }
                     }
 
                     if (y == 2 && letterIndex == IndentedLetterIndex && Hovered)
                     {
-                        RecentRendered[index] = ' ';
+                        render[index] = ' ';
                         continue;
                     }
 
                     if (letterIndex >= BoxText.Length)
                     {
-                        RecentRendered[index] = ' ';
+                        render[index] = ' ';
                         continue;
                     }
 
-                    RecentRendered[index] = BoxText[letterIndex];
+                    render[index] = BoxText[letterIndex];
                 }
+
+            return render;
         }
     }
 

@@ -11,16 +11,18 @@ namespace RPG
     // TODO: maybe play around with bullet-time?
     internal class GameCode
     {
-        public static readonly float FireRate = 0.1f;
+        public static readonly float MachineGunFireRate = 0.15f;
+        public static readonly float RPGFireRate = 0.3f;
         public static Mouse Mouse;
         public static Keyboard Keyboard;
         public static Controller Controller;
-        public static int controllerID = -1;
+        public static int playerControllerID = -1;
         public static Player PlayerObj;
         public static List<Enemy> Enemies = new List<Enemy>();
         
         private static readonly float movementSpeed = 19;
-        private static float firetimer = FireRate;
+        private static float machinegunFiretimer = MachineGunFireRate;
+        private static float rpgFiretimer = RPGFireRate;
 
         public static void Main(string[] args)
         {
@@ -46,73 +48,20 @@ namespace RPG
 
         public static void FixedUpdate()
         {
-            if (MainMenu.MenuShown || PlayerObj is null)
-                return;
-
-            PlayerObj.Position += InputAxis.GetAxisVector() * FixedDeltaTime * movementSpeed * new Vector2(2, 1);
-        }
-
-        public static void Update()
-        {
-            if (controllerID == -1 && Controller.TryGetUnassignedController(out int id))
+            if (Controller.TryGetUnassignedController(out int id))
             {
-                controllerID = id;
+                playerControllerID = id;
                 Controller.DefaultControllerID = id;
             }
 
-            MainMenu.UpdateAnimation();
-
             if (MainMenu.MenuShown || PlayerObj is null)
-            {
-                if (Controller.ButtonPressed(Controller.Button.A, controllerID))
-                {
-                    MainMenu.StartGame();
-                }
                 return;
-            }
 
-            Vector2 shootingDirection;
+            // Movement
+            PlayerObj.Position += InputAxis.GetAxisVector() * FixedDeltaTime * movementSpeed * new Vector2(2, 1);
 
-            if (Controller.isControllerConnected(controllerID))
-            {
-                // replaced with axis system.
-                //Vector2 moveDirection = Controller.ThumbstickValues(Controller.Thumbstick.Left, controllerID) * new Vector2(2, 1);
-                //PlayerObj.Position += moveDirection * DeltaTime * movementSpeed;
-
-                shootingDirection = Controller.ThumbstickValues(Controller.Thumbstick.Right, controllerID);
-                if (shootingDirection == Vector2.Zero)
-                {
-                    shootingDirection = Controller.ThumbstickValues(Controller.Thumbstick.Left, controllerID);
-                }
-            }
-            else
-            {
-                /* // replaced with axis system.
-                if (Keyboard.ButtonDown(Keyboard.Key.A) || Keyboard.ButtonDown(Keyboard.Key.Left))
-                {
-                    PlayerObj.Position += Vector2.Left * 2 * DeltaTime * movementSpeed;
-                }
-                else if (Keyboard.ButtonDown(Keyboard.Key.D) || Keyboard.ButtonDown(Keyboard.Key.Right))
-                {
-                    PlayerObj.Position += Vector2.Right * 2 * DeltaTime * movementSpeed;
-                }
-
-                if (Keyboard.ButtonDown(Keyboard.Key.W) || Keyboard.ButtonDown(Keyboard.Key.Up))
-                {
-                    PlayerObj.Position += Vector2.Up * DeltaTime * movementSpeed;
-                }
-                else if (Keyboard.ButtonDown(Keyboard.Key.S) || Keyboard.ButtonDown(Keyboard.Key.Down))
-                {
-                    PlayerObj.Position += Vector2.Down * DeltaTime * movementSpeed;
-                }*/
-
-                shootingDirection = (Mouse.Position - PlayerObj.Position).Normalize();
-            }
-
-            PlayerObj.LookingDirection = shootingDirection;
-
-
-            if (Keyboard.ButtonPressed(Keyboard.Key.P) || Controller.ButtonPressed(Controller.Button.Y, controllerID))
+            // Spawn enemies
+            if (Keyboard.ButtonDown(Keyboard.Key.P) || Controller.ButtonDown(Controller.Button.Y, playerControllerID))
             {
                 Random rand = new Random();
 
@@ -125,24 +74,59 @@ namespace RPG
                 Enemies.Add(newEnemy);
             }
 
-            if (Keyboard.ButtonPressed(Keyboard.Key.Escape))
+            // Shooting
+            Vector2 shootingDirection;
+
+            if (Controller.isControllerConnected(playerControllerID))
             {
-                MainMenu.EnableMenu();
+                shootingDirection = Controller.ThumbstickValues(Controller.Thumbstick.Right, playerControllerID);
+                if (shootingDirection == Vector2.Zero)
+                {
+                    shootingDirection = Controller.ThumbstickValues(Controller.Thumbstick.Left, playerControllerID);
+                }
+            }
+            else
+            {
+                shootingDirection = (Mouse.Position - PlayerObj.Position).Normalize();
             }
 
-            if (Mouse.ButtonReleased(0) || Keyboard.ButtonDown(Keyboard.Key.B) || Controller.ButtonDown(Controller.Button.RightShoulder, controllerID))
+            PlayerObj.LookingDirection = shootingDirection;
+
+            rpgFiretimer += FixedDeltaTime;
+            if (Mouse.ButtonDown(0) || Keyboard.ButtonDown(Keyboard.Key.B) || 
+                Controller.ButtonDown(Controller.Button.RightShoulder, playerControllerID) && rpgFiretimer >= RPGFireRate)
             {
                 Instantiate(new Rocket(PlayerObj.Position + Vector2.One, shootingDirection * 10, 2));
+                rpgFiretimer -= RPGFireRate;
             }
 
-            firetimer += DeltaTime;
-            if (Mouse.ButtonDown(1) ||
-                Keyboard.ButtonDown(Keyboard.Key.Space) ||
-                Controller.TriggerValue(Controller.Trigger.Right, controllerID) > 0.1f &&
-                firetimer >= FireRate)
+            machinegunFiretimer += FixedDeltaTime;
+            if (Mouse.ButtonDown(1) || Keyboard.ButtonDown(Keyboard.Key.Space) ||
+                Controller.TriggerValue(Controller.Trigger.Right, playerControllerID) > 0.1f &&
+                machinegunFiretimer >= MachineGunFireRate)
             {
                 Instantiate(new MachineGunBullet(PlayerObj.Position + Vector2.One, shootingDirection * 25));
-                firetimer = 0;
+                machinegunFiretimer -= MachineGunFireRate;
+            }
+        }
+
+        public static void Update()
+        {
+            MainMenu.UpdateAnimation();
+
+            if (MainMenu.MenuShown || PlayerObj is null)
+            {
+                if (Controller.ButtonPressed(Controller.Button.A, playerControllerID))
+                {
+                    MainMenu.StartGame();
+                }
+                
+                return;
+            }
+
+            if (Keyboard.ButtonPressed(Keyboard.Key.Escape) || Controller.ButtonPressed(Controller.Button.B, playerControllerID))
+            {
+                MainMenu.EnableMenu();
             }
         }
     }

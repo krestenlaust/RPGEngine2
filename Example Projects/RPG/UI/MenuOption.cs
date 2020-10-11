@@ -50,9 +50,9 @@ namespace RPG.UI
             }
         }
 
-        public override void Render()
+        public override char[] Render()
         {
-            RecentRendered = new char[Size.Product()];
+            char[] render = new char[Size.Product()];
 
             for (int y = 0; y < Size.y; y++)
             {
@@ -67,11 +67,13 @@ namespace RPG.UI
 
 
                     int index = (int)Size.x * y + x;
-                    RecentRendered[index] = ButtonText[x - TEXT_LEFT_MARGIN];
+                    render[index] = ButtonText[x - TEXT_LEFT_MARGIN];
                 }
             }
 
-            DrawBorder(RecentRendered, (int)Size.x, BorderChar);
+            DrawBorder(render, (int)Size.x, BorderChar);
+
+            return render;
         }
     }
 }

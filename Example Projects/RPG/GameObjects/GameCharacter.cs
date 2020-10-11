@@ -6,15 +6,16 @@ namespace RPG.GameObjects
     public class GameCharacter : GameObjectBase
     {
         public Progressbar Healthbar;
-        public int HP;
-        public int MaxHP;
+        public float HP;
+        public float MaxHP;
+        protected bool ShowHealthbar;
 
         public void UpdateHealthbar()
         {
-            if (Healthbar is null)
-            {
+            Healthbar.Active = ShowHealthbar;
+
+            if (Healthbar is null || !ShowHealthbar)
                 return;
-            }
 
             Healthbar.Position = Position + new Vector2(0, -1);
             Healthbar.Progress = Math.Min((float)HP / MaxHP, 1);
@@ -24,6 +25,11 @@ namespace RPG.GameObjects
         {
             Healthbar.Destroy();
             base.Destroy();
+        }
+
+        public override char[] Render()
+        {
+            return new char[] { };
         }
     }
 }

@@ -36,13 +36,13 @@
         /// Helper method to draw a border on a one-dimensional char-array.
         /// </summary>
         /// <param name="screen"></param>
-        /// <param name="screenWidth"></param>
+        /// <param name="width"></param>
         /// <param name="borderchar"></param>
-        protected static void DrawBorder(char[] screen, int screenWidth, char borderchar)
+        protected static void DrawBorder(char[] screen, int width, char borderchar)
         {
             for (int i = 0; i < screen.Length; i++)
             {
-                if (i % screenWidth == 0 || i <= screenWidth || screen.Length - i <= screenWidth || i % screenWidth == screenWidth - 1)
+                if (i % width == 0 || i <= width || screen.Length - i <= width || i % width == width - 1)
                 {
                     screen[i] = borderchar;
                 }

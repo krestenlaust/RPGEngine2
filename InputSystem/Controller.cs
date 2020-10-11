@@ -1,5 +1,8 @@
 ﻿using RPGGame2.InputSystem;
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Runtime.InteropServices;
 using XInputDotNetPure;
 
 namespace RPGEngine2.InputSystem
@@ -49,8 +52,82 @@ namespace RPGEngine2.InputSystem
         private HashSet<(Button, int)> buttonDownPrevious;
         private HashSet<(Button, int)> buttonDownCurrent = new HashSet<(Button, int)>();
 
+        // Debouncing
+        private struct VibrationDebounce
+        {
+            public DateTime TriggerTime;
+            public float LeftMoter;
+            public float RightMoter;
+
+            public VibrationDebounce(float debounceDuration, float leftMoter, float rightMoter)
+            {
+                TriggerTime = DateTime.Now + TimeSpan.FromSeconds(debounceDuration);
+                LeftMoter = leftMoter;
+                RightMoter = rightMoter;
+            }
+        }
+        private Dictionary<int, VibrationDebounce> vibration = new Dictionary<int, VibrationDebounce>(4);
+
+
+        public void Initialize()
+        {
+        }
+
+        public void Update()
+        {
+            controllerStates.Clear();
+
+            buttonDownPrevious = buttonDownCurrent;
+            buttonDownCurrent = new HashSet<(Button, int)>();
+
+
+            Stack<int> removeEntries = new Stack<int>(vibration.Count);
+
+            foreach (var item in vibration)
+            {
+                if (item.Value.TriggerTime > DateTime.Now)
+                    continue;
+
+                SetVibration(item.Value.LeftMoter, item.Value.RightMoter, item.Key);
+                removeEntries.Push(item.Key);
+            }
+
+            while (removeEntries.Count > 0)
+                vibration.Remove(removeEntries.Pop());
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="debounceTime">Time till event will happen in seconds.</param>
+        /// <param name="lowFrequencyRumble"></param>
+        /// <param name="highFrequencyRumble"></param>
+        public void SetVibrationDebounce(int controllerID, float debounceTime, float lowFrequencyRumble, float highFrequencyRumble)
+        {
+            vibration[controllerID] = new VibrationDebounce(debounceTime, lowFrequencyRumble, highFrequencyRumble);
+        }
+
+        public void StopVibration(int controllerID)
+        {
+            if (!isControllerIDValid(controllerID))
+                return;
+
+            GamePad.SetVibration((PlayerIndex)controllerID, 0, 0);
+        }
+
+        public void SetVibration(float lowFrequencyRumble, float highFrequencyRumble, int controllerID)
+        {
+            if (!isControllerIDValid(controllerID))
+                return;
+
+            GamePad.SetVibration((PlayerIndex)controllerID, lowFrequencyRumble, highFrequencyRumble);
+        }
+
         public bool ButtonPressed(Button button, int controllerID)
         {
+            if (!isControllerIDValid(controllerID))
+                return false;
+
             if (isButtonDown(button, controllerID))
             {
                 (Button, int) buttonPress = (button, controllerID);
@@ -65,6 +142,9 @@ namespace RPGEngine2.InputSystem
 
         public bool ButtonReleased(Button button, int controllerID)
         {
+            if (!isControllerIDValid(controllerID))
+                return false;
+
             (Button, int) buttonPress = (button, controllerID);
 
             if (isButtonDown(button, controllerID))
@@ -78,6 +158,9 @@ namespace RPGEngine2.InputSystem
 
         public bool ButtonDown(Button button, int controllerID)
         {
+            if (!isControllerIDValid(controllerID))
+                return false;
+
             if (isButtonDown(button, controllerID))
             {
                 buttonDownCurrent.Add((button, controllerID));
@@ -87,34 +170,26 @@ namespace RPGEngine2.InputSystem
             return false;
         }
 
-        public void Initialize()
+        /// <summary>
+        /// Returns the movement of left-axis.
+        /// </summary>
+        /// <param name="axis"></param>
+        /// <returns></returns>
+        public float GetAxisRaw(Axis axis)
         {
-        }
-
-        public void Update()
-        {
-            controllerStates.Clear();
-
-            buttonDownPrevious = buttonDownCurrent;
-            buttonDownCurrent = new HashSet<(Button, int)>();
-        }
-
-        private GamePadState GetGamePadState(int id)
-        {
-            if (controllerStates.TryGetValue(id, out GamePadState state))
+            return axis switch
             {
-                return state;
-            }
-
-            state = GamePad.GetState((PlayerIndex)id);
-            controllerStates[id] = state;
-            return state;
+                Axis.Horizontal => ThumbstickValues(Thumbstick.Left, DefaultControllerID).x,
+                Axis.Vertical => ThumbstickValues(Thumbstick.Left, DefaultControllerID).y,
+                _ => 0,
+            };
         }
-
-
 
         public float TriggerValue(Trigger trigger, int controllerID)
         {
+            if (!isControllerIDValid(controllerID))
+                return 0;
+
             GamePadState gamepadState = GetGamePadState(controllerID);
 
             return trigger switch
@@ -127,6 +202,9 @@ namespace RPGEngine2.InputSystem
 
         public Vector2 ThumbstickValues(Thumbstick thumbstick, int controllerID)
         {
+            if (!isControllerIDValid(controllerID))
+                return Vector2.Zero;
+
             GamePadState gamepadState = GetGamePadState(controllerID);
 
             return thumbstick switch
@@ -137,24 +215,16 @@ namespace RPGEngine2.InputSystem
             };
         }
 
-        public bool isControllerConnected(int controllerID) => GetGamePadState(controllerID).IsConnected;
-
-        private void UpdateAssignedControllerList()
+        public bool isControllerConnected(int controllerID)
         {
-            // Check if controller is assigned. Iterating backwards to prevent issues when removing entries.
-            for (int i = assignedControllerIDs.Count - 1; i >= 0; i--)
-            {
-                if (!isControllerConnected(i))
-                    assignedControllerIDs.Remove(i);
-            }
+            if (!isControllerIDValid(controllerID))
+                return false;
+
+            return GetGamePadState(controllerID).IsConnected;
         }
 
-        public void StopVibration(int controllerID) => GamePad.SetVibration((PlayerIndex)controllerID, 0, 0);
-
-        public void SetVibration(float leftMotor, float rightMotor, int controllerID) => GamePad.SetVibration((PlayerIndex)controllerID, leftMotor, rightMotor);
-
         /// <summary>
-        /// Checks if an unregistered controller has been plugged in.
+        /// Checks whether a new controller has been plugged in.
         /// </summary>
         /// <param name="ControllerID"></param>
         /// <returns></returns>
@@ -222,21 +292,27 @@ namespace RPGEngine2.InputSystem
             }
         }
 
-        /// <summary>
-        /// Returns the movement of left-axis.
-        /// </summary>
-        /// <param name="axis"></param>
-        /// <returns></returns>
-        public float GetAxisRaw(Axis axis)
+        private bool isControllerIDValid(int controllerID) => !(controllerID < 0 || controllerID > 3);
+
+        private GamePadState GetGamePadState(int id)
         {
-            switch (axis)
+            if (controllerStates.TryGetValue(id, out GamePadState state))
             {
-                case Axis.Horizontal:
-                    return ThumbstickValues(Thumbstick.Left, DefaultControllerID).x;
-                case Axis.Vertical:
-                    return ThumbstickValues(Thumbstick.Left, DefaultControllerID).y;
-                default:
-                    return 0;
+                return state;
+            }
+
+            state = GamePad.GetState((PlayerIndex)id);
+            controllerStates[id] = state;
+            return state;
+        }
+
+        private void UpdateAssignedControllerList()
+        {
+            // Check whether a controller that is marked as assigned is still plugged in. Iterating backwards to prevent issues when removing entries.
+            for (int i = assignedControllerIDs.Count - 1; i >= 0; i--)
+            {
+                if (!isControllerConnected(i))
+                    assignedControllerIDs.Remove(i);
             }
         }
     }

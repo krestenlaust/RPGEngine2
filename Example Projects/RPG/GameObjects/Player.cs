@@ -11,6 +11,7 @@ namespace RPG.GameObjects
             Position = position;
             Size = new Vector2(3, 3);
             Healthbar = healthbar;
+            ShowHealthbar = true;
 
             HP = 50;
             MaxHP = 50;
@@ -22,14 +23,16 @@ namespace RPG.GameObjects
             UpdateHealthbar();
         }
 
-        public override void Render()
+        public override char[] Render()
         {
-            RecentRendered = new char[9];
+            char[] render = new char[9];
 
             Vector2 lookpos = LookingDirection + Vector2.One;
-            RecentRendered[Size.RoundX * lookpos.RoundY + lookpos.RoundX] = '*';
+            render[Size.RoundX * lookpos.RoundY + lookpos.RoundX] = '+';
 
-            RecentRendered[4] = '¤';
+            render[4] = '¤';
+
+            return render;
         }
     }
 }

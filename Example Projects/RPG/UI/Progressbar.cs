@@ -20,25 +20,27 @@ namespace RPG
             ZIndex = byte.MaxValue;
         }
 
-        public override void Render()
+        public override char[] Render()
         {
-            RecentRendered = new char[Size.RoundX];
-            RecentRendered[0] = LEFT_BORDER;
-            RecentRendered[RecentRendered.Length - 1] = RIGHT_BORDER;
+            char[] render = new char[Size.RoundX];
+            render[0] = LEFT_BORDER;
+            render[render.Length - 1] = RIGHT_BORDER;
 
-            int barWidth = RecentRendered.Length - 2;
+            int barWidth = render.Length - 2;
 
-            for (int i = 1; i < RecentRendered.Length - 1; i++)
+            for (int i = 1; i < render.Length - 1; i++)
             {
                 if (Progress * barWidth >= i - 1)
                 {
-                    RecentRendered[i] = Filled;
+                    render[i] = Filled;
                 }
                 else
                 {
-                    RecentRendered[i] = Empty;
+                    render[i] = Empty;
                 }
             }
+
+            return render;
         }
     }
 }

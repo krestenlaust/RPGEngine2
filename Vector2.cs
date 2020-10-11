@@ -70,6 +70,10 @@ namespace RPGEngine2
         /// Shorthand for writing Vector(0, 1).
         /// </summary>
         public static Vector2 Down { get; } = new Vector2(0, 1);
+        /// <summary>
+        /// Shorthand for writing Vector(2, 1).
+        /// </summary>
+        public static Vector2 ScreenRatio { get; } = new Vector2(2, 1);
 
         public float Magnitude
         {
