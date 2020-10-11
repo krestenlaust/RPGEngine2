@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using RPGGame2.InputSystem;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace RPGEngine2.InputSystem
 {
+    // TODO: Make a unified system for handling movement input.
     public static class InputDeviceHandler
     {
         internal static Mouse InternalMouseDevice = null;
@@ -14,6 +16,8 @@ namespace RPGEngine2.InputSystem
             {
                 device.Update();
             }
+
+            InputAxis.Update();
         }
 
         public static void ActivateDevice(IInputDevice device)
@@ -29,5 +33,15 @@ namespace RPGEngine2.InputSystem
 
         public static T GetDevice<T>() => inputDevices.OfType<T>().First();
 
+        internal static IEnumerable<IAxisInput> GetAxisDevices()
+        {
+            foreach (IInputDevice device in inputDevices)
+            {
+                if (device is IAxisInput axisDevice)
+                {
+                    yield return axisDevice;
+                }
+            }
+        }
     }
 }

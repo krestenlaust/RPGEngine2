@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using RPGGame2.InputSystem;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace RPGEngine2.InputSystem
 {
-    public class Keyboard : IInputDevice
+    public class Keyboard : IInputDevice, IAxisInput
     {
         #region VirtualKeys
         public enum Key : int
@@ -276,5 +277,15 @@ namespace RPGEngine2.InputSystem
         }
 
         private bool isKeyDown(Key key) => GetKeyState(key) < 0;
+
+        public float GetAxisRaw(Axis axis)
+        {
+            return axis switch
+            {
+                Axis.Horizontal => (ButtonDown(Key.A) || ButtonDown(Key.Left) ? -1 : 0) + (ButtonDown(Key.D) || ButtonDown(Key.Right) ? 1 : 0),
+                Axis.Vertical => (ButtonDown(Key.W) || ButtonDown(Key.Up) ? -1 : 0) + (ButtonDown(Key.S) || ButtonDown(Key.Down) ? 1 : 0),
+                _ => 0,
+            };
+        }
     }
 }

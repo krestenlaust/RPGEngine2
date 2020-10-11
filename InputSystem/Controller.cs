@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using RPGGame2.InputSystem;
+using System.Collections.Generic;
 using XInputDotNetPure;
 
 namespace RPGEngine2.InputSystem
 {
-    public class Controller : IInputDevice
+    public class Controller : IInputDevice, IAxisInput
     {
         public enum Button
         {
@@ -36,6 +37,11 @@ namespace RPGEngine2.InputSystem
 
 
         public const int MaxControllers = 4;
+
+        /// <summary>
+        /// Used for InputAxis.
+        /// </summary>
+        public int DefaultControllerID = -1;
 
         private readonly HashSet<int> assignedControllerIDs = new HashSet<int>();
         private readonly Dictionary<int, GamePadState> controllerStates = new Dictionary<int, GamePadState>(4);
@@ -95,8 +101,7 @@ namespace RPGEngine2.InputSystem
 
         private GamePadState GetGamePadState(int id)
         {
-            GamePadState state;
-            if (controllerStates.TryGetValue(id, out state))
+            if (controllerStates.TryGetValue(id, out GamePadState state))
             {
                 return state;
             }
@@ -148,6 +153,11 @@ namespace RPGEngine2.InputSystem
 
         public void SetVibration(float leftMotor, float rightMotor, int controllerID) => GamePad.SetVibration((PlayerIndex)controllerID, leftMotor, rightMotor);
 
+        /// <summary>
+        /// Checks if an unregistered controller has been plugged in.
+        /// </summary>
+        /// <param name="ControllerID"></param>
+        /// <returns></returns>
         public bool TryGetUnassignedController(out int ControllerID)
         {
             UpdateAssignedControllerList();
@@ -209,6 +219,24 @@ namespace RPGEngine2.InputSystem
 
                 default:
                     return false;
+            }
+        }
+
+        /// <summary>
+        /// Returns the movement of left-axis.
+        /// </summary>
+        /// <param name="axis"></param>
+        /// <returns></returns>
+        public float GetAxisRaw(Axis axis)
+        {
+            switch (axis)
+            {
+                case Axis.Horizontal:
+                    return ThumbstickValues(Thumbstick.Left, DefaultControllerID).x;
+                case Axis.Vertical:
+                    return ThumbstickValues(Thumbstick.Left, DefaultControllerID).y;
+                default:
+                    return 0;
             }
         }
     }

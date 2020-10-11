@@ -1,6 +1,7 @@
 ﻿using RPG.GameObjects;
 using RPGEngine2;
 using RPGEngine2.InputSystem;
+using RPGGame2.InputSystem;
 using System;
 using System.Collections.Generic;
 using static RPGEngine2.EngineMain;
@@ -25,6 +26,7 @@ namespace RPG
         {
             OnStart += Start;
             OnUpdate += Update;
+            OnFixedUpdate += FixedUpdate;
 
             EngineStart();
         }
@@ -42,11 +44,20 @@ namespace RPG
             MainMenu.isAnimating = true;
         }
 
+        public static void FixedUpdate()
+        {
+            if (MainMenu.MenuShown || PlayerObj is null)
+                return;
+
+            PlayerObj.Position += InputAxis.GetAxisVector() * FixedDeltaTime * movementSpeed * new Vector2(2, 1);
+        }
+
         public static void Update()
         {
             if (controllerID == -1 && Controller.TryGetUnassignedController(out int id))
             {
                 controllerID = id;
+                Controller.DefaultControllerID = id;
             }
 
             MainMenu.UpdateAnimation();
@@ -60,12 +71,13 @@ namespace RPG
                 return;
             }
 
-            Vector2 shootingDirection = Vector2.Zero;
+            Vector2 shootingDirection;
 
             if (Controller.isControllerConnected(controllerID))
             {
-                Vector2 moveDirection = Controller.ThumbstickValues(Controller.Thumbstick.Left, controllerID) * new Vector2(2, 1);
-                PlayerObj.Position += moveDirection * DeltaTime * movementSpeed;
+                // replaced with axis system.
+                //Vector2 moveDirection = Controller.ThumbstickValues(Controller.Thumbstick.Left, controllerID) * new Vector2(2, 1);
+                //PlayerObj.Position += moveDirection * DeltaTime * movementSpeed;
 
                 shootingDirection = Controller.ThumbstickValues(Controller.Thumbstick.Right, controllerID);
                 if (shootingDirection == Vector2.Zero)
@@ -75,6 +87,7 @@ namespace RPG
             }
             else
             {
+                /* // replaced with axis system.
                 if (Keyboard.ButtonDown(Keyboard.Key.A) || Keyboard.ButtonDown(Keyboard.Key.Left))
                 {
                     PlayerObj.Position += Vector2.Left * 2 * DeltaTime * movementSpeed;
@@ -91,7 +104,7 @@ namespace RPG
                 else if (Keyboard.ButtonDown(Keyboard.Key.S) || Keyboard.ButtonDown(Keyboard.Key.Down))
                 {
                     PlayerObj.Position += Vector2.Down * DeltaTime * movementSpeed;
-                }
+                }*/
 
                 shootingDirection = (Mouse.Position - PlayerObj.Position).Normalize();
             }
