@@ -350,3 +350,6 @@ MigrationBackup/
 .ionide/
 XInputDotNet/Examples/XInputTest.unity
 XInputDotNet/Examples/XInputTestCS.cs
+
+# JetBrains Rider
+.idea/
