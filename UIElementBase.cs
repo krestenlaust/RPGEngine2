@@ -13,15 +13,16 @@
             Stay = 3,
         }
         public HoverState CurrentHoverState;
+
         /// <summary>
         /// True when mouse is hovering above element.
         /// </summary>
         public bool Hovered
-        { 
+        {
             get
             {
                 return CurrentHoverState == HoverState.Enter || CurrentHoverState == HoverState.Stay;
-            } 
+            }
         }
 
         /// <summary>

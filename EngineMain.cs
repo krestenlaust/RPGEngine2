@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading;
 
 namespace RPGEngine2
@@ -62,7 +61,7 @@ namespace RPGEngine2
                 {
                     DeltaTime = (float)swUpdate.Elapsed.TotalSeconds;
                     swUpdate.Restart();
-                    
+
                     UpdateFrame();
                 }
                 if (swFixedUpdate.ElapsedMilliseconds >= TIME_PER_PHYSICS_FRAME)
@@ -115,7 +114,7 @@ namespace RPGEngine2
         private static void UpdateBaseObjects(List<BaseObject> baseObjects, bool physics)
         {
             List<GameObjectBase> physicsObjects = null;
-            
+
             if (physics)
                 physicsObjects = new List<GameObjectBase>(baseObjects.Count);
 

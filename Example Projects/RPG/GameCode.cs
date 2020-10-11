@@ -1,25 +1,25 @@
-﻿using static RPGEngine2.EngineMain;
-using RPG.GameObjects;
+﻿using RPG.GameObjects;
 using RPGEngine2;
-using System.Collections.Generic;
 using RPGEngine2.InputSystem;
 using System;
+using System.Collections.Generic;
+using static RPGEngine2.EngineMain;
 
 namespace RPG
 {
     // TODO: maybe play around with bullet-time?
     internal class GameCode
     {
+        public static readonly float FireRate = 0.1f;
         public static Mouse Mouse;
         public static Keyboard Keyboard;
         public static Controller Controller;
-
+        public static int controllerID = -1;
         public static Player PlayerObj;
         public static List<Enemy> Enemies = new List<Enemy>();
-        public static readonly float FireRate = 0.1f;
+        
         private static readonly float movementSpeed = 19;
         private static float firetimer = FireRate;
-        public static int controllerID = -1;
 
         public static void Main(string[] args)
         {
@@ -97,7 +97,7 @@ namespace RPG
             }
 
             PlayerObj.LookingDirection = shootingDirection;
-            
+
 
             if (Keyboard.ButtonPressed(Keyboard.Key.P) || Controller.ButtonPressed(Controller.Button.Y, controllerID))
             {
@@ -123,9 +123,9 @@ namespace RPG
             }
 
             firetimer += DeltaTime;
-            if (Mouse.ButtonDown(1) || 
-                Keyboard.ButtonDown(Keyboard.Key.Space) || 
-                Controller.TriggerValue(Controller.Trigger.Right, controllerID) > 0.1f && 
+            if (Mouse.ButtonDown(1) ||
+                Keyboard.ButtonDown(Keyboard.Key.Space) ||
+                Controller.TriggerValue(Controller.Trigger.Right, controllerID) > 0.1f &&
                 firetimer >= FireRate)
             {
                 Instantiate(new MachineGunBullet(PlayerObj.Position + Vector2.One, shootingDirection * 25));

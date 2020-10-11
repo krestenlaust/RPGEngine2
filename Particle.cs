@@ -1,27 +1,41 @@
-﻿
+﻿using static RPGEngine2.EngineMain;
+
 namespace RPGEngine2
 {
     // TODO: Needs proper profiling and improved performance.
+    // Maybe cache the animation instead of recalculating it every time.
     public abstract class Particle : GameObjectBase
     {
-        protected bool[,] InitialState;
-        protected bool[,] CurrentState;
-        protected int TickDuration;
+        /// <summary>
+        /// The duration in ticks.
+        /// </summary>
+        public int AnimationDurationTicks { get; protected set; }
+        public bool[,] InitialState { get; protected set; }
+        public bool[,] CurrentState { get; protected set; }
         /// <summary>
         /// The animation repeats.
         /// </summary>
-        protected bool isLooping;
+        public bool isLooping { get; protected set; }
         /// <summary>
         /// Character that represents alive-cells.
         /// </summary>
-        protected char CellAlive;
+        public char CellAlive { get; set; }
         /// <summary>
         /// Character that represents dead-cells. Typically ' ' or '\0' (for transparency).
         /// </summary>
-        protected char CellDead;
+        public char CellDead { get; set; }
         /// TODO: Replace frame based animation with real-time based animation.
-        protected int FrameCount = -1;
-        protected int FramesPerTick;
+        protected float TickInterval;
+        private float deltaTickTime;
+        private int tickCount;
+
+        /// <summary>
+        /// The duration in seconds.
+        /// </summary>
+        public float AnimationDurationSeconds
+        {
+            get => AnimationDurationTicks * TickInterval;
+        }
 
         /// <summary>
         /// Called when the animation is finished, isn't triggered when <c>isLooping</c> is true. Called <i>just</i> before <c>Destroy()</c> is called.
@@ -32,27 +46,28 @@ namespace RPGEngine2
 
         public override void Update()
         {
-            FrameCount++;
+            deltaTickTime += DeltaTime;
 
-            if (FrameCount % FramesPerTick != 0)
+            if (deltaTickTime < TickInterval)
                 return;
 
-            if (FrameCount / FramesPerTick == TickDuration)
+            deltaTickTime -= TickInterval;
+
+            if (tickCount++ >= AnimationDurationTicks)
             {
                 if (isLooping)
                 {
                     CurrentState = (bool[,])InitialState.Clone();
-                    FrameCount = -1;
+                    tickCount = 0;
                 }
                 else
                 {
                     OnFinished();
                     Destroy();
+                    return;
                 }
-
-                return;
             }
-            
+
             if (NeedsExpanding(CurrentState))
             {
                 CurrentState = ExpandRectArray(CurrentState, 1);
@@ -77,17 +92,15 @@ namespace RPGEngine2
                             livingCells++;
                     }
 
-                    // 
                     if (CurrentState[x, y] == true)
                     {
                         if (livingCells < 2 || livingCells > 3)
                         {
-                            // ingen grund til at assign når den er false som standard
-                            //nextState[x, y] = false;
+                            // no point in assigning false when it's false by default.
                             continue;
                         }
                     }
-                    // Dead celle bliver levende
+                    // Dead cell is vitalized.
                     else if (livingCells == 3)
                     {
                         nextState[x, y] = true;
@@ -99,7 +112,6 @@ namespace RPGEngine2
             }
 
             CurrentState = nextState;
-            //FrameCount++;
         }
 
         public override void Render()

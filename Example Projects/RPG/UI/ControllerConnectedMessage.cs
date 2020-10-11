@@ -1,5 +1,4 @@
 ﻿using RPGEngine2;
-using static RPG.GameCode;
 
 namespace RPG.UI
 {
@@ -7,7 +6,7 @@ namespace RPG.UI
     {
         public ControllerConnectedMessage()
         {
-            
+
         }
 
         public override void Render()

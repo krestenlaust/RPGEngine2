@@ -6,7 +6,8 @@ namespace RPG.GameObjects
 {
     public class Enemy : GameCharacter
     {
-        public const int DEFAULT_HP = 15;
+        private const int DEFAULT_HP = 15;
+        private const char APPEARENCE = '#';
 
         public Enemy(Progressbar healthbar, Vector2 position)
         {
@@ -15,7 +16,7 @@ namespace RPG.GameObjects
             Position = position;
             Healthbar = healthbar;
             Size = new Vector2(1, 1);
-            RecentRendered = new char[] { '\u2588' };
+            RecentRendered = new char[] { APPEARENCE };
 
             PhysicsEnabled = true;
         }

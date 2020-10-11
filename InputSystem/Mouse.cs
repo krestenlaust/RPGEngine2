@@ -1,5 +1,4 @@
-﻿using RPGEngine2.InputSystem;
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 
 namespace RPGEngine2.InputSystem

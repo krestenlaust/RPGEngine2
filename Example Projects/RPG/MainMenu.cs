@@ -2,7 +2,6 @@
 using RPG.UI;
 using RPGEngine2;
 using System;
-using System.Collections.Generic;
 using static RPGEngine2.EngineMain;
 
 namespace RPG
@@ -66,11 +65,11 @@ namespace RPG
                     }
                     ),
                 new MenuOption(
-                    "Quit", 
-                    new Vector2(startX, 12), 
-                    BUTTON_WIDTH, 
-                    delegate { 
-                        EngineStop(); 
+                    "Quit",
+                    new Vector2(startX, 12),
+                    BUTTON_WIDTH,
+                    delegate {
+                        EngineStop();
                     }
                     )
         };
@@ -84,7 +83,7 @@ namespace RPG
 
         public static void UpdateAnimation()
         {
-            
+
             if (!isAnimating)
                 return;
 

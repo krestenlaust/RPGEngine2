@@ -23,8 +23,11 @@ namespace RPG
 
             CurrentState = InitialState;
 
-            TickDuration = 7; // 8
-            FramesPerTick = 3;
+            //TickDuration = 7; // 8
+            //FramesPerTick = 3;
+            TickInterval = 0.05f;
+            AnimationDurationTicks = 7;
+
             PositionOffset = new Vector2(-2, -2);
             Size = new Vector2(5, 5);
             isLooping = false;

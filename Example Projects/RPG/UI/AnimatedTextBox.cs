@@ -1,6 +1,6 @@
 ﻿using RPGEngine2;
-using static RPGEngine2.EngineMain;
 using static RPG.GameCode;
+using static RPGEngine2.EngineMain;
 
 namespace RPG
 {
@@ -126,7 +126,7 @@ namespace RPG
         }
     }
 
-    
 
-    
+
+
 }

@@ -106,7 +106,7 @@ namespace RPGEngine2.InputSystem
             return state;
         }
 
-        
+
 
         public float TriggerValue(Trigger trigger, int controllerID)
         {

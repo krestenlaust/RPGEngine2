@@ -209,7 +209,7 @@ namespace RPGEngine2.InputSystem
 
         [DllImport("user32.dll")]
         private static extern short GetKeyState(Key nVirtKey);
-        
+
         private HashSet<Key> keyDownPrevious;
         private HashSet<Key> keyDownCurrent = new HashSet<Key>();
 
@@ -232,7 +232,7 @@ namespace RPGEngine2.InputSystem
 
             return false;
         }
-        
+
         /// <summary>
         /// Is true the first frame <c>key</c> is false, if it has been true until now. 
         /// </summary>

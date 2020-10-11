@@ -1,5 +1,4 @@
 ﻿using RPGEngine2;
-using static RPG.GameCode;
 
 namespace RPG.GameObjects
 {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BasicRPG.UI;
+﻿using BasicRPG.UI;
 using RPGEngine2;
 using RPGEngine2.InputSystem;
 using static RPGEngine2.EngineMain;

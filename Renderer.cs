@@ -9,7 +9,7 @@ namespace RPGEngine2
     {
         public const bool IS_NULL_SEE_THROUGH = false;
 
-        public static short ScreenHeight { get; internal set; } 
+        public static short ScreenHeight { get; internal set; }
         public static short ScreenWidth { get; internal set; }
         internal static char[] ScreenBuffer;
 
@@ -79,9 +79,9 @@ namespace RPGEngine2
         private static void FillScreenBuffer(char[] buffer, List<BaseObject> baseObjects, int screenWidth, int screenHeight)
         {
             var sortedObjects = from obj in baseObjects
-                                    where obj?.Active == true
-                                    orderby obj.ZIndex ascending
-                                    select obj;
+                                where obj?.Active == true
+                                orderby obj.ZIndex ascending
+                                select obj;
 
             foreach (BaseObject obj in sortedObjects)
             {

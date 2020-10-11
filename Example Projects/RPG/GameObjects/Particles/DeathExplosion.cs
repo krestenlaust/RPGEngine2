@@ -20,8 +20,11 @@ namespace RPG.GameObjects.Particles
 
             CurrentState = InitialState;
 
-            TickDuration = 3;
-            FramesPerTick = 6;
+            //TickDuration = 3;
+            TickInterval = 0.1f;
+            //FramesPerTick = 6;
+            AnimationDurationTicks = 7;
+
             PositionOffset = new Vector2(-2, -2);
             Size = new Vector2(5, 5);
             isLooping = false;

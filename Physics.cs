@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RPGEngine2
 {
@@ -14,8 +11,8 @@ namespace RPGEngine2
             foreach (GameObjectBase thisObj in physicsObjects)
             {
                 List<GameObjectBase> collidingObjects = (from obj in physicsObjects
-                                        where Vector2.RectCollide(thisObj.InternalPosition, thisObj.Size, obj.Position, obj.Size)
-                                        select obj).ToList();
+                                                         where Vector2.RectCollide(thisObj.InternalPosition, thisObj.Size, obj.Position, obj.Size)
+                                                         select obj).ToList();
 
                 if (collidingObjects.Count > 0)
                 {
