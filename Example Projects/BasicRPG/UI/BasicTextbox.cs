@@ -10,26 +10,29 @@ namespace BasicRPG.UI
         {
             this.Position = Position;
             this.Size = Size;
-            this.RecentRendered = new char[Size.Product()];
             this.Text = BoxText;
 
             ZIndex = byte.MaxValue;
         }
 
-        public override void Render()
+        public override char[] Render()
         {
-            for (int i = 0; i < RecentRendered.Length; i++)
+            char[] render = new char[Size.Product()];
+
+            for (int i = 0; i < render.Length; i++)
             {
                 if (Text.Length > i)
                 {
-                    RecentRendered[i] = Text[i];
+                    render[i] = Text[i];
 
                 }
                 else
                 {
-                    RecentRendered[i] = ' ';
+                    render[i] = ' ';
                 }
             }
+
+            return render;
         }
     }
 }

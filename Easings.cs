@@ -2,6 +2,7 @@
 
 namespace RPGEngine2
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1034:Nested types should not be visible", Justification = "This isn't my code...")]
     public static class Easings
     {
         /* 
@@ -45,7 +46,7 @@ namespace RPGEngine2
             }
         };
 
-        public class Cubic
+        public static class Cubic
         {
             public static float In(float k)
             {
@@ -64,7 +65,7 @@ namespace RPGEngine2
             }
         };
 
-        public class Quartic
+        public static class Quartic
         {
             public static float In(float k)
             {
@@ -83,7 +84,7 @@ namespace RPGEngine2
             }
         };
 
-        public class Quintic
+        public static class Quintic
         {
             public static float In(float k)
             {
@@ -102,7 +103,7 @@ namespace RPGEngine2
             }
         };
 
-        public class Sinusoidal
+        public static class Sinusoidal
         {
             public static float In(float k)
             {
@@ -120,7 +121,7 @@ namespace RPGEngine2
             }
         };
 
-        public class Exponential
+        public static class Exponential
         {
             public static float In(float k)
             {
@@ -141,7 +142,7 @@ namespace RPGEngine2
             }
         };
 
-        public class Circular
+        public static class Circular
         {
             public static float In(float k)
             {
@@ -160,7 +161,7 @@ namespace RPGEngine2
             }
         };
 
-        public class Elastic
+        public static class Elastic
         {
             public static float In(float k)
             {
@@ -183,7 +184,7 @@ namespace RPGEngine2
             }
         };
 
-        public class Back
+        public static class Back
         {
             static float s = 1.70158f;
             static float s2 = 2.5949095f;
@@ -205,7 +206,7 @@ namespace RPGEngine2
             }
         };
 
-        public class Bounce
+        public static class Bounce
         {
             public static float In(float k)
             {

@@ -8,6 +8,7 @@ namespace RPG
 {
     public class Rocket : GameObjectBase
     {
+        public static readonly float ControllerRumble = 0.5f;
         private readonly float AliveDuration;
         private float aliveTimer;
         private float AnimationTimer = 1;
@@ -22,13 +23,14 @@ namespace RPG
             Velocity = velocity;
             this.AliveDuration = aliveDuration;
             Size = new Vector2(3, 3);
+            ZIndex = 101;
 
             PhysicsEnabled = true;
         }
 
-        public override void Collision(List<GameObjectBase> gameObjects)
+        public override void Collision(GameObjectBase gameObject)
         {
-            if (gameObjects.Any(obj => obj is Enemy))
+            if (gameObject is Enemy)
             {
                 aliveTimer = AliveDuration;
             }
@@ -40,17 +42,19 @@ namespace RPG
 
             if (aliveTimer >= AliveDuration)
             {
-                GameCode.Controller.SetVibration(0.5f, 0, GameCode.playerControllerID);
+                GameCode.Controller.SetVibration(ControllerRumble, 0, GameCode.PlayerControllerID);
                 Instantiate(new RPGExplosion(Position));
                 Destroy();
             }
-            
+
 
             AnimationTimer += DeltaTime;
 
-            if (AnimationTimer >= (AliveDuration - aliveTimer) / AliveDuration)
+            float compareTime = (AliveDuration - aliveTimer) / AliveDuration;
+            if (AnimationTimer >= compareTime)
             {
                 OnTheSides = !OnTheSides;
+                AnimationTimer -= compareTime;
 
                 if (OnTheSides)
                 {

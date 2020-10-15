@@ -17,7 +17,7 @@ namespace RPG.GameObjects
             if (Healthbar is null || !ShowHealthbar)
                 return;
 
-            Healthbar.Position = Position + new Vector2(0, -1);
+            Healthbar.Position = Position + new Vector2(1, -1);
             Healthbar.Progress = Math.Min((float)HP / MaxHP, 1);
         }
 
@@ -25,6 +25,10 @@ namespace RPG.GameObjects
         {
             Healthbar.Destroy();
             base.Destroy();
+        }
+
+        public override void Update()
+        {
         }
 
         public override char[] Render()

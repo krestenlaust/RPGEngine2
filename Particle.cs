@@ -25,7 +25,6 @@ namespace RPGEngine2
         /// Character that represents dead-cells. Typically ' ' or '\0' (for transparency).
         /// </summary>
         public char CellDead { get; set; }
-        /// TODO: Replace frame based animation with real-time based animation.
         protected float TickInterval;
         private float deltaTickTime;
         private int tickCount;
@@ -39,10 +38,11 @@ namespace RPGEngine2
         }
 
         /// <summary>
-        /// Called when the animation is finished, isn't triggered when <c>isLooping</c> is true. Called <i>just</i> before <c>Destroy()</c> is called.
+        /// NOTE: Call base implementation for destruction of particle after animation. Called when the animation is finished, isn't triggered when <c>isLooping</c> is true. Called <i>just</i> before <c>Destroy()</c> is called.
         /// </summary>
         public virtual void OnFinished()
         {
+            Destroy();
         }
 
         public override void Update()
@@ -64,7 +64,6 @@ namespace RPGEngine2
                 else
                 {
                     OnFinished();
-                    Destroy();
                     return;
                 }
             }

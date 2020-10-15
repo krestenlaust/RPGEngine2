@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="RPGEngine2.BaseObject" Collapsed="true">
+    <Position X="1.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAABAAgAAgAAAAAAAAAABAAAAhABAAIEAAAAE=</HashCode>
+      <FileName>BaseObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RPGEngine2.DebugString" Collapsed="true">
+    <Position X="5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAAAAAAABAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>DebugString.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RPGEngine2.EngineMain" Collapsed="true">
+    <Position X="7.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAADAAAAAABBMAQAgAAAAAAAISAgAAIAAAEACIA=</HashCode>
+      <FileName>EngineMain.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RPGEngine2.GameConfig" Collapsed="true">
+    <Position X="5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAABAAABAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>GameConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RPGEngine2.GameObjectBase" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>GameObjectBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RPGEngine2.NativeMethods" Collapsed="true">
+    <Position X="0.5" Y="5.5" Width="1.5" />
+    <NestedTypes>
+      <Struct Name="RPGEngine2.NativeMethods.INPUT_RECORD" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>NativeMethods.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+      <Struct Name="RPGEngine2.NativeMethods.MENU_EVENT_RECORD" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>NativeMethods.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+      <Struct Name="RPGEngine2.NativeMethods.INPUT_RECORD_UNION" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>NativeMethods.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+      <Struct Name="RPGEngine2.NativeMethods.WINDOW_BUFFER_SIZE_RECORD" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>NativeMethods.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+      <Struct Name="RPGEngine2.NativeMethods.MOUSE_EVENT_RECORD" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>NativeMethods.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+      <Enum Name="RPGEngine2.NativeMethods.InputEventType" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>NativeMethods.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="RPGEngine2.NativeMethods.MouseEventFlags" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>NativeMethods.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Struct Name="RPGEngine2.NativeMethods.COORD" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>NativeMethods.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+      <Struct Name="RPGEngine2.NativeMethods.FOCUS_EVENT_RECORD" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>NativeMethods.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+      <Struct Name="RPGEngine2.NativeMethods.KEY_EVENT_RECORD" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>NativeMethods.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>QMAEAQAAAAAAAAAAABIAQAAAAAAAAAAAAAQAAAEAABA=</HashCode>
+      <FileName>NativeMethods.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RPGEngine2.Particle" Collapsed="true">
+    <Position X="0.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAQAAAQAAACAACABIAICAAAAAACAAAFBAAIAgABAA=</HashCode>
+      <FileName>Particle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RPGEngine2.Physics">
+    <Position X="7.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Physics.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RPGEngine2.Renderer" Collapsed="true">
+    <Position X="5.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAIAEAAAAEAAAAAAAAAAAFIIAAAAACAAQAAQAA=</HashCode>
+      <FileName>Renderer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RPGEngine2.UIElementBase" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAACIAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UIElementBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RPGEngine2.Mathf" Collapsed="true">
+    <Position X="5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Vector2.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RPGEngine2.InputSystem.Controller" BaseTypeListCollapsed="true">
+    <Position X="5" Y="6.75" Width="2" />
+    <NestedTypes>
+      <Enum Name="RPGEngine2.InputSystem.Controller.Button" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>InputSystem\Controller.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="RPGEngine2.InputSystem.Controller.Trigger" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>InputSystem\Controller.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="RPGEngine2.InputSystem.Controller.Thumbstick" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>InputSystem\Controller.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Struct Name="RPGEngine2.InputSystem.Controller.VibrationDebounce" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>InputSystem\Controller.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAZIAhAgIEAAASACASAEAAEAAGACAAAAgAAAAAIEBIA=</HashCode>
+      <FileName>InputSystem\Controller.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="RPGEngine2.InputSystem.InputAxis" Collapsed="true">
+    <Position X="7.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AASAAAAAAIACAAAAAAAAIAAAAAgAAAQgAAAAAAAAAAA=</HashCode>
+      <FileName>InputSystem\InputAxis.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RPGEngine2.InputSystem.InputDeviceHandler" Collapsed="true">
+    <Position X="2.25" Y="4.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAIAAAAAAAACAAAAgAIEAAAAAAAAA=</HashCode>
+      <FileName>InputSystem\InputDeviceHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RPGEngine2.InputSystem.Keyboard" BaseTypeListCollapsed="true">
+    <Position X="2.75" Y="6.75" Width="2" />
+    <NestedTypes>
+      <Enum Name="RPGEngine2.InputSystem.Keyboard.Key" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>InputSystem\Keyboard.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAZAAhAAAAAAAUAEAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>InputSystem\Keyboard.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="RPGEngine2.InputSystem.Mouse" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="6.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAZAABACQAAAAQCggAAQAAAQAAEAAAAAAABgAAAAAAA=</HashCode>
+      <FileName>InputSystem\Mouse.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Struct Name="RPGEngine2.Vector2" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="6.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAMCIAIAAQAAAAAE8AUDgAAAAQAAAIRAiADgAAMggqI=</HashCode>
+      <FileName>Vector2.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Struct>
+  <Interface Name="RPGEngine2.InputSystem.IAxisInput">
+    <Position X="5.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>InputSystem\IAxisInput.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="RPGEngine2.InputSystem.IInputDevice">
+    <Position X="7.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>InputSystem\IInputDevice.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="RPGEngine2.InputSystem.Axis">
+    <Position X="3.75" Y="5.25" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>InputSystem\InputAxis.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

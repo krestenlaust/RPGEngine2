@@ -8,15 +8,26 @@ namespace RPGEngine2
     {
         public static void GameObjectPhysics(List<GameObjectBase> physicsObjects)
         {
+            if (physicsObjects is null)
+                return;
+
+            //HashSet<GameObjectBase> checkedObjects = new HashSet<GameObjectBase>();
+
+            // TODO: tror måske man kunne lave noget smart med en slags løbende liste som bliver kortere, måske en stack hvor man peeker mest og så fjerner bagefter.
+
             foreach (GameObjectBase thisObj in physicsObjects)
             {
-                List<GameObjectBase> collidingObjects = (from obj in physicsObjects
-                                                         where Vector2.RectCollide(thisObj.InternalPosition, thisObj.Size, obj.Position, obj.Size)
-                                                         select obj).ToList();
-
-                if (collidingObjects.Count > 0)
+                foreach (var otherObj in physicsObjects)
                 {
-                    thisObj.Collision(collidingObjects);
+                    if (otherObj == thisObj)
+                        continue;
+
+                    if (!Vector2.RectCollide(thisObj.InternalPosition, thisObj.Size, otherObj.InternalPosition, otherObj.Size))
+                        continue;
+
+                    thisObj.Collision(otherObj);
+                    // TODO: Optimize this, there is no reason in checking both, but if I do this then I'll call the method twice for every object colliding.
+                    //otherObj.Collision(thisObj);
                 }
             }
         }

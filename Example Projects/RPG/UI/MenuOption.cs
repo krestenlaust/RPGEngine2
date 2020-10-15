@@ -23,7 +23,7 @@ namespace RPG.UI
             this.Size = new Vector2(optionWidth, BoxHeight);
             this.OnClick = onClick;
 
-            ZIndex = byte.MaxValue;
+            ZIndex = 110;
         }
 
         public override void HoverUpdate()

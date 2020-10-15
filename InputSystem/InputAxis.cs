@@ -1,12 +1,8 @@
 ﻿using RPGEngine2;
 using RPGEngine2.InputSystem;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RPGGame2.InputSystem
+namespace RPGEngine2.InputSystem
 {
     public enum Axis
     {

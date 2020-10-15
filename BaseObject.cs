@@ -1,13 +1,11 @@
 ﻿namespace RPGEngine2
 {
-    // TODO: Get rid of the RecentRendered thing and make the Render method return a char array as it should!
     public abstract class BaseObject
     {
         /// <summary>
         /// Size of the rectangle that represents the object, <c>Size.RoundX</c> and <c>Size.RoundY</c> are used.
         /// </summary>
         public Vector2 Size;
-        //public char[] RecentRendered;
         /// <summary>
         /// <c>Update()</c> and <c>Render()</c> is only called when <c>Active</c> is true.
         /// </summary>
@@ -21,17 +19,12 @@
         /// </summary>
         internal Vector2 InternalPosition;
         internal bool isDestroyed;
-        /// <summary>
-        /// Can be implemented to for example, represent the middle of the object instead of the top-left corner.
-        /// </summary>
-        //public abstract Vector2 Position { get; set; }
         protected Vector2 PositionOffset;
         public Vector2 Position
         {
             get => InternalPosition - PositionOffset;
             set => InternalPosition = value + PositionOffset;
         }
-
 
         /// <summary>
         /// Only called when <c>Active</c> is true and object is visible on screen. <i>Shouldn't</i> be used for logic.
@@ -41,9 +34,7 @@
         /// <summary>
         /// Only called when <c>Active</c> is true. Called before <c>Render</c>. Should be used for logic.
         /// </summary>
-        public virtual void Update()
-        {
-        }
+        public abstract void Update();
 
         /// <summary>
         /// Marks object for destruction. Is removed before next gameloop takes place.

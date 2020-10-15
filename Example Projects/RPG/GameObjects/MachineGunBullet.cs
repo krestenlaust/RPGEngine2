@@ -6,9 +6,9 @@ namespace RPG.GameObjects
 {
     public class MachineGunBullet : GameObjectBase
     {
-        private readonly float Damage = 4;
-        private readonly float Speed = 1.5f;
-        private readonly float AliveDuration = 1.5f;
+        private readonly float Damage = 3;
+        private readonly float Speed = 2.5f;
+        private readonly float AliveDuration = 1;
         private float AliveTimer;
         private readonly char[] Appearence = new char[] { '\0', '*', '\0' };
 
@@ -21,17 +21,14 @@ namespace RPG.GameObjects
             PhysicsEnabled = true;
         }
 
-        public override void Collision(List<GameObjectBase> gameObjects)
+        public override void Collision(GameObjectBase gameObject)
         {
-            foreach (var item in gameObjects)
+            if (gameObject is Enemy enemy)
             {
-                if (item is Enemy enemy)
-                {
-                    enemy.HP -= Damage;
-                    enemy.Position += Velocity.Normalize();
-                    Destroy();
-                    return;
-                }
+                enemy.HP -= Damage;
+                enemy.Position += Velocity.Normalize();
+                Destroy();
+                return;
             }
         }
 

@@ -16,6 +16,7 @@ namespace RPG.GameObjects
             Position = position;
             Healthbar = healthbar;
             Size = new Vector2(1, 1);
+            ShowHealthbar = true;
 
             PhysicsEnabled = true;
         }

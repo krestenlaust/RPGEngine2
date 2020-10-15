@@ -1,12 +1,11 @@
-﻿using RPGGame2.InputSystem;
+﻿using RPGEngine2.InputSystem;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Runtime.InteropServices;
 using XInputDotNetPure;
 
 namespace RPGEngine2.InputSystem
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Even though the XInput controller class is mostly static, I've chosen to keep methods non-static to follow IInputDevice design-principle.")]
     public class Controller : IInputDevice, IAxisInput
     {
         public enum Button
@@ -292,7 +291,7 @@ namespace RPGEngine2.InputSystem
             }
         }
 
-        private bool isControllerIDValid(int controllerID) => !(controllerID < 0 || controllerID > 3);
+        private static bool isControllerIDValid(int controllerID) => !(controllerID < 0 || controllerID > 3);
 
         private GamePadState GetGamePadState(int id)
         {

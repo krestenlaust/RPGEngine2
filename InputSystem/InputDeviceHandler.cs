@@ -1,13 +1,11 @@
-﻿using RPGGame2.InputSystem;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace RPGEngine2.InputSystem
 {
-    // TODO: Make a unified system for handling movement input.
     public static class InputDeviceHandler
     {
-        internal static Mouse InternalMouseDevice = null;
+        internal static Mouse InternalMouseDevice;
         private static readonly List<IInputDevice> inputDevices = new List<IInputDevice>();
 
         public static void RefreshDevices()
@@ -22,6 +20,11 @@ namespace RPGEngine2.InputSystem
 
         public static void ActivateDevice(IInputDevice device)
         {
+            if (device is null)
+            {
+                return;
+            }
+
             device.Initialize();
             inputDevices.Add(device);
 

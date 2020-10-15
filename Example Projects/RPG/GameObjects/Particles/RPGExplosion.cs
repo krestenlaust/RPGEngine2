@@ -5,7 +5,7 @@ namespace RPG
 {
     public class RPGExplosion : Particle
     {
-        public int Damage = 10;
+        public int Damage = 15;
 
         public RPGExplosion(Vector2 position)
         {
@@ -47,7 +47,10 @@ namespace RPG
                     item.HP -= Damage;
                 }
             }
-            GameCode.Controller.StopVibration(playerControllerID);
+            Controller.SetVibration(Rocket.ControllerRumble / 2, 0, PlayerControllerID);
+            BombsAlive--;
+
+            base.OnFinished();
         }
     }
 }

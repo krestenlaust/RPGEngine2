@@ -2,10 +2,10 @@
 
 namespace RPGEngine2
 {
-    public struct Mathf
+    public static class Mathf
     {
         /// <summary>
-        /// Interpolate liniarily between a and b by t.
+        /// Interpolate linearly between a and b by t.
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
@@ -22,8 +22,8 @@ namespace RPGEngine2
     /// </summary>
     public struct Vector2 : IEquatable<Vector2>
     {
-        public float x { get; private set; }
-        public float y { get; private set; }
+        public readonly float x;
+        public readonly float y;
         public int RoundX
         {
             get
@@ -84,7 +84,7 @@ namespace RPGEngine2
         }
 
         /// <summary>
-        /// Calculates the position that is a percentage(<code>t</code>) of the travel between position a and b.
+        /// Interpolates between <c>a</c> and <c>b</c> by <c>t</c>.
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
@@ -172,11 +172,44 @@ namespace RPGEngine2
 
         public override bool Equals(object obj)
         {
-            return GetHashCode() == obj.GetHashCode();
+            return GetHashCode() == obj?.GetHashCode();
         }
         public override int GetHashCode()
         {
             return ToString().GetHashCode();
+        }
+
+        public Vector2 Subtract(Vector2 a)
+        {
+            return this - a;
+        }
+        public Vector2 Subtract(float a)
+        {
+            return this - a;
+        }
+        public Vector2 Add(Vector2 a)
+        {
+            return this + a;
+        }
+        public Vector2 Add(float a)
+        {
+            return this + a;
+        }
+        public Vector2 Multiply(float a)
+        {
+            return this * a;
+        }
+        public Vector2 Multiply(Vector2 a)
+        {
+            return this * a;
+        }
+        public Vector2 Divide(Vector2 a)
+        {
+            return this / a;
+        }
+        public Vector2 Divide(float a)
+        {
+            return this / a;
         }
 
         public override string ToString()
@@ -202,6 +235,14 @@ namespace RPGEngine2
         public static Vector2 operator -(Vector2 a, Vector2 b)
         {
             return new Vector2(a.x - b.x, a.y - b.y);
+        }
+        public static Vector2 operator -(Vector2 a, float b)
+        {
+            return new Vector2(a.x - b, a.y - b);
+        }
+        public static Vector2 operator -(float a, Vector2 b)
+        {
+            return new Vector2(a - b.x, a - b.y);
         }
         public static Vector2 operator *(float d, Vector2 a)
         {

@@ -40,6 +40,9 @@
         /// <param name="borderchar"></param>
         protected static void DrawBorder(char[] screen, int width, char borderchar)
         {
+            if (screen is null)
+                return;
+
             for (int i = 0; i < screen.Length; i++)
             {
                 if (i % width == 0 || i <= width || screen.Length - i <= width || i % width == width - 1)

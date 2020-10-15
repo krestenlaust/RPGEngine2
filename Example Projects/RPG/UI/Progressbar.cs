@@ -20,6 +20,11 @@ namespace RPG
             ZIndex = byte.MaxValue;
         }
 
+        public override void Update()
+        {
+
+        }
+
         public override char[] Render()
         {
             char[] render = new char[Size.RoundX];

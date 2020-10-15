@@ -9,9 +9,13 @@ namespace RPGEngine2
         /// </summary>
         public Vector2 Velocity;
         //public override Vector2 Position { get => InternalPosition; set => InternalPosition = value; }
-        public bool PhysicsEnabled = false;
+        public bool PhysicsEnabled;
 
-        public virtual void Collision(List<GameObjectBase> gameObjects)
+        /// <summary>
+        /// Can be called multiple times per frame depending on how many objects are overlapping.
+        /// </summary>
+        /// <param name="gameObjects"></param>
+        public virtual void Collision(GameObjectBase gameObjects)
         {
         }
     }

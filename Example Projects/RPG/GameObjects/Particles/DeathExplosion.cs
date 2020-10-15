@@ -30,5 +30,10 @@ namespace RPG.GameObjects.Particles
             CellAlive = '*';
             CellDead = '.';
         }
+
+        public override void Destroy()
+        {
+            base.Destroy();
+        }
     }
 }

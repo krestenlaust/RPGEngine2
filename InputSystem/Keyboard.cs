@@ -1,4 +1,4 @@
-﻿using RPGGame2.InputSystem;
+﻿using RPGEngine2.InputSystem;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
@@ -24,12 +24,9 @@ namespace RPGEngine2.InputSystem
             Menu = 0x12,
             Pause = 0x13,
             CapsLock = 0x14,
-            Kana = 0x15,
-            Hangeul = 0x15,
             Hangul = 0x15,
             Junja = 0x17,
             Final = 0x18,
-            Hanja = 0x19,
             Kanji = 0x19,
             Escape = 0x1B,
             Convert = 0x1C,
@@ -106,7 +103,7 @@ namespace RPGEngine2.InputSystem
             Add = 0x6B,
             Separator = 0x6C,
             Subtract = 0x6D,
-            Decimal = 0x6E,
+            DecimalSeperator = 0x6E,
             Divide = 0x6F,
             F1 = 0x70,
             F2 = 0x71,
@@ -133,13 +130,13 @@ namespace RPGEngine2.InputSystem
             F23 = 0x86,
             F24 = 0x87,
             NumLock = 0x90,
-            ScrollLock = 0x91,
+            ScrollLock = 0x91,/* // oem specific
             NEC_Equal = 0x92,
             Fujitsu_Jisho = 0x92,
             Fujitsu_Masshou = 0x93,
             Fujitsu_Touroku = 0x94,
             Fujitsu_Loya = 0x95,
-            Fujitsu_Roya = 0x96,
+            Fujitsu_Roya = 0x96,*/
             LeftShift = 0xA0,
             RightShift = 0xA1,
             LeftControl = 0xA2,
@@ -208,9 +205,7 @@ namespace RPGEngine2.InputSystem
         }
         #endregion
 
-        [DllImport("user32.dll")]
-        private static extern short GetKeyState(Key nVirtKey);
-
+        
         private HashSet<Key> keyDownPrevious;
         private HashSet<Key> keyDownCurrent = new HashSet<Key>();
 
@@ -276,7 +271,7 @@ namespace RPGEngine2.InputSystem
             keyDownCurrent = new HashSet<Key>();
         }
 
-        private bool isKeyDown(Key key) => GetKeyState(key) < 0;
+        private static bool isKeyDown(Key key) => NativeMethods.GetKeyState((int)key) < 0;
 
         public float GetAxisRaw(Axis axis)
         {

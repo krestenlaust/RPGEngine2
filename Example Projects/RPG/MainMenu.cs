@@ -18,10 +18,14 @@ namespace RPG
         public static float AnimationTime;
         public static bool isAnimating;
         private static MenuOption[] MainMenuButtons;
+        private static bool hasGameBeenStarted = false;
 
         public static void StartGame()
         {
             DisableMenu();
+
+            if (hasGameBeenStarted)
+                return;
 
             Progressbar healthbar = new Progressbar(8, '#', '\0');
             Instantiate(healthbar);
@@ -62,32 +66,33 @@ namespace RPG
                     BUTTON_WIDTH,
                     delegate{
                         StartGame();
-                    }
-                    ),
-                new MenuOption("Options", new Vector2(startX, 12), BUTTON_WIDTH),
+                    }),
+                new MenuOption(
+                    "Options",
+                    new Vector2(startX, 12),
+                    BUTTON_WIDTH),
+
                 new MenuOption(
                     "Quit",
                     new Vector2(startX, 20),
                     BUTTON_WIDTH,
                     delegate {
                         EngineStop();
-                    }
-                    )
-        };
+                    })
+            };
 
-            //MainMenuButtons[1] = new MenuOption("Settings", new Vector2(startX, 12), BUTTON_WIDTH);
             for (int i = 0; i < MainMenuButtons.Length; i++)
             {
                 Instantiate(MainMenuButtons[i]);
             }
         }
 
-        public static void UpdateAnimation()
+        public static void Update()
         {
             if (!isAnimating)
                 return;
 
-            AnimationTime += DeltaTime;
+            AnimationTime += FixedDeltaTime;
 
             for (int i = 0; i < MainMenuButtons.Length; i++)
             {

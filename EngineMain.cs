@@ -6,16 +6,11 @@ using System.Threading;
 
 namespace RPGEngine2
 {
-    // TODO: Come up with a fast and simple method for rendering debug strings.
     // TODO: Make a configuration object to keep track of engine settings.
     // TODO: Come up with a system for scaling the screen and make the game have a consistent resolution and size. Change font size.
     public static class EngineMain
     {
-        private const int FPS_CAP = 0;
-        private const int PHYSICS_FPS = 30;
-        private const int TIME_PER_FRAME = 0; //1000 / FPS_CAP;
-        private const int TIME_PER_PHYSICS_FRAME = 1000 / PHYSICS_FPS;
-        private const float CONSOLE_TITLE_UPDATE_INTERVAL = 0.1f;
+        public static GameConfig GameConfig = new GameConfig();
 
         public static float DeltaTime { get; private set; } = 1;
         public static float FixedDeltaTime { get; private set; } = 1;
@@ -23,7 +18,7 @@ namespace RPGEngine2
         private static readonly List<BaseObject> instantiatedBaseObjects = new List<BaseObject>();
         private static bool isRunning;
         private static bool physicsFrame;
-        private static float updateConsoleTitleTimer = CONSOLE_TITLE_UPDATE_INTERVAL;
+        private static float updateConsoleTitleTimer;
 
         public static event Action OnStart;
         public static event Action OnUpdate;
@@ -48,22 +43,25 @@ namespace RPGEngine2
             isRunning = true;
             OnStart?.Invoke();
 
+            // Initialize gameconfig
+            updateConsoleTitleTimer = GameConfig.ConsoleTitleRefreshRate;
+
             while (isRunning)
             {
-                if (FPS_CAP != 0)
+                if (GameConfig.FramesPerSecondCap != 0)
                 {
-                    while (swUpdate.ElapsedMilliseconds < TIME_PER_FRAME && swFixedUpdate.ElapsedMilliseconds < TIME_PER_PHYSICS_FRAME)
+                    while (swUpdate.ElapsedMilliseconds < 1000f / GameConfig.FramesPerSecondCap && swFixedUpdate.ElapsedMilliseconds < 1000f / GameConfig.PhysicsUpdateRate)
                         Thread.Sleep(1);
                 }
 
-                if (swUpdate.ElapsedMilliseconds >= TIME_PER_FRAME)
+                if (GameConfig.FramesPerSecondCap == 0 || swUpdate.ElapsedMilliseconds >= 1000f / GameConfig.FramesPerSecondCap)
                 {
                     DeltaTime = (float)swUpdate.Elapsed.TotalSeconds;
                     swUpdate.Restart();
 
                     UpdateFrame();
                 }
-                if (swFixedUpdate.ElapsedMilliseconds >= TIME_PER_PHYSICS_FRAME)
+                if (GameConfig.PhysicsUpdateRate == 0 || swFixedUpdate.ElapsedMilliseconds >= 1000f / GameConfig.PhysicsUpdateRate)
                 {
                     FixedDeltaTime = (float)swFixedUpdate.Elapsed.TotalSeconds;
                     swFixedUpdate.Restart();
@@ -76,10 +74,10 @@ namespace RPGEngine2
         private static void UpdateFrame()
         {
             updateConsoleTitleTimer += DeltaTime;
-            if (updateConsoleTitleTimer >= CONSOLE_TITLE_UPDATE_INTERVAL)
+            if (updateConsoleTitleTimer >= GameConfig.ConsoleTitleRefreshRate)
             {
                 Console.Title = "FPS: " + Math.Floor(1 / DeltaTime);
-                updateConsoleTitleTimer -= CONSOLE_TITLE_UPDATE_INTERVAL;
+                updateConsoleTitleTimer -= GameConfig.ConsoleTitleRefreshRate;
             }
 
             // Input
@@ -94,7 +92,7 @@ namespace RPGEngine2
             // Render & draw
             Renderer.ResetScreenBuffers();
             Renderer.PerformRendering(baseObjects);
-            Renderer.WriteStandardOut();
+            Renderer.FlushScreenBuffers();
 
             // High-level garbage collection
             baseObjects.RemoveAll(gameObject => gameObject is null || gameObject.isDestroyed);
@@ -127,7 +125,7 @@ namespace RPGEngine2
                     case GameObjectBase gameObject:
                         gameObject.Update();
 
-                        gameObject.InternalPosition += gameObject.Velocity * DeltaTime * Vector2.ScreenRatio;
+                        gameObject.InternalPosition += gameObject.Velocity * DeltaTime;
 
                         if (physics && gameObject.PhysicsEnabled)
                         {
