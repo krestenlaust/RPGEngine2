@@ -1,7 +1,8 @@
 ﻿using RPGEngine2;
 
-namespace RPG
+namespace CommonComponents.UI
 {
+    // Originally created for 'RPG' project.
     public class Progressbar : UIElementBase
     {
         public const char LEFT_BORDER = '[';

@@ -1,4 +1,5 @@
-﻿using RPGEngine2;
+﻿using CommonComponents.UI;
+using RPGEngine2;
 using System;
 
 namespace RPG.GameObjects

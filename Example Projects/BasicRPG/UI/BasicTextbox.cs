@@ -34,5 +34,9 @@ namespace BasicRPG.UI
 
             return render;
         }
+
+        public override void Update()
+        {
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using RPG.GameObjects;
+﻿using CommonComponents.UI;
+using RPG.GameObjects;
 using RPG.UI;
 using RPGEngine2;
 using RPGEngine2.InputSystem;
@@ -12,7 +13,7 @@ namespace RPG
     internal class GameCode
     {
         public static readonly float MachineGunFireRate = 0.1f;//0.15f;
-        public static readonly float RPGFireRate = 0.35f;//0.3f;
+        public static readonly float RPGFireRate = 0.25f;//0.3f;
         public static Mouse Mouse;
         public static Keyboard Keyboard;
         public static Controller Controller;
@@ -22,8 +23,7 @@ namespace RPG
         public static int BombsAlive;
         public static Random rand = new Random();
 
-        private static DebugString triggerValueDebugString;
-        private static ControllerConnectedMessage popupMessage;
+        private static ControllerStatusMessage popupMessage;
         private static readonly float movementSpeed = 19;
         private static float machinegunFiretimer;
         private static float rpgFiretimer;
@@ -42,7 +42,6 @@ namespace RPG
 
         public static void Start()
         {
-            //triggerValueDebugString = new DebugString("", new Vector2(10, 10));
             Mouse = new Mouse();
             Keyboard = new Keyboard();
             Controller = new Controller();
@@ -50,11 +49,13 @@ namespace RPG
             InputDeviceHandler.ActivateDevice(Keyboard);
             InputDeviceHandler.ActivateDevice(Controller);
 
-            popupMessage = new ControllerConnectedMessage();
+            popupMessage = new ControllerStatusMessage();
             Instantiate(popupMessage);
 
             MainMenu.LoadMenu();
             MainMenu.isAnimating = true;
+
+            Renderer.VoidfillChar = '.';
         }
 
         public static void FixedUpdate()
@@ -74,8 +75,6 @@ namespace RPG
                 popupMessage.Popup("Controller connected...");
                 controllerDisconnectedPopup = false;
             }
-
-            //triggerValueDebugString.Message = Controller.TriggerValue(Controller.Trigger.Right, PlayerControllerID);
 
             if (MainMenu.MenuShown || PlayerObj is null)
                 return;

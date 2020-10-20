@@ -1,4 +1,5 @@
-﻿using RPG.GameObjects;
+﻿using CommonComponents.UI;
+using RPG.GameObjects;
 using RPG.UI;
 using RPGEngine2;
 using System;

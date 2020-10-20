@@ -8,8 +8,16 @@ namespace RPGEngine2
     {
         public static short ScreenHeight { get; internal set; }
         public static short ScreenWidth { get; internal set; }
+        /// <summary>
+        /// The position of the top-left corner of screen relative to the world (the console buffer) coordinates.
+        /// </summary>
         public static Vector2 ScreenPosition { get; private set; } = Vector2.Zero;
-        public static bool isDebugStringsEnabled;
+        public static bool isDebugStringsEnabled { get; set; }
+        /// <summary>
+        /// The character that is drawn when no other gameobject is. Causes slight overhead when not null as 
+        /// <c>ResetScreenBuffer</c> will fill buffer with this character on call.
+        /// </summary>
+        public static char VoidfillChar { get; set; }
         internal static char[] ScreenBuffer;
         internal static List<DebugString> DebugStrings = new List<DebugString>();
 
@@ -19,9 +27,17 @@ namespace RPGEngine2
             ScreenPosition = newPosition;
         }
 
-        public static void ResetScreenBuffers()
+        public static void ResetScreenBuffer()
         {
             ScreenBuffer = new char[ScreenWidth * ScreenHeight];
+            
+            if (VoidfillChar == '\0')
+                return;
+
+            for (int i = 0; i < ScreenBuffer.Length; i++)
+            {
+                ScreenBuffer[i] = VoidfillChar;
+            }
         }
 
         public static void PerformRendering(List<BaseObject> baseObjects)
@@ -29,7 +45,7 @@ namespace RPGEngine2
             FillScreenBuffer(ScreenBuffer, baseObjects, ScreenWidth, ScreenHeight);
         }
 
-        public static void FlushScreenBuffers()
+        public static void FlushScreenBuffer()
         {
             Console.SetCursorPosition(0, 0);
             Console.Write(ScreenBuffer);

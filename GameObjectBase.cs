@@ -10,6 +10,7 @@ namespace RPGEngine2
         public Vector2 Velocity;
         //public override Vector2 Position { get => InternalPosition; set => InternalPosition = value; }
         public bool PhysicsEnabled;
+        public bool ReflectingSurface;
 
         /// <summary>
         /// Can be called multiple times per frame depending on how many objects are overlapping.

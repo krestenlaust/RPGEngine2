@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicRPG", "Example Project
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPG", "Example Projects\RPG\RPG.csproj", "{3E94E617-4582-41BF-85D9-5C30929573B2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackermanGame", "..\HackermanGame\HackermanGame.csproj", "{EE19B029-A59E-4A9C-989C-838AF20D5588}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonComponents", "CommonUIElements\CommonComponents.csproj", "{E0AD7ED7-A2F8-4545-B96A-BC850FAA3845}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{3E94E617-4582-41BF-85D9-5C30929573B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E94E617-4582-41BF-85D9-5C30929573B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E94E617-4582-41BF-85D9-5C30929573B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE19B029-A59E-4A9C-989C-838AF20D5588}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE19B029-A59E-4A9C-989C-838AF20D5588}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE19B029-A59E-4A9C-989C-838AF20D5588}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE19B029-A59E-4A9C-989C-838AF20D5588}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0AD7ED7-A2F8-4545-B96A-BC850FAA3845}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0AD7ED7-A2F8-4545-B96A-BC850FAA3845}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0AD7ED7-A2F8-4545-B96A-BC850FAA3845}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0AD7ED7-A2F8-4545-B96A-BC850FAA3845}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

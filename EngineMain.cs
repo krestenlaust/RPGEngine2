@@ -90,9 +90,9 @@ namespace RPGEngine2
             physicsFrame = false;
 
             // Render & draw
-            Renderer.ResetScreenBuffers();
+            Renderer.ResetScreenBuffer();
             Renderer.PerformRendering(baseObjects);
-            Renderer.FlushScreenBuffers();
+            Renderer.FlushScreenBuffer();
 
             // High-level garbage collection
             baseObjects.RemoveAll(gameObject => gameObject is null || gameObject.isDestroyed);

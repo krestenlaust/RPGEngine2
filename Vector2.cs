@@ -95,6 +95,11 @@ namespace RPGEngine2
             return new Vector2(Mathf.Lerp(a.x, b.x, t), Mathf.Lerp(a.y, b.y, t));
         }
 
+        public static Vector2 Reflect(Vector2 inDirection, Vector2 surfaceNormal)
+        {
+            return inDirection - (2 * inDirection * surfaceNormal * surfaceNormal);
+        }
+
         public static float Distance(Vector2 a, Vector2 b)
         {
             return (float)Math.Sqrt(Math.Pow((b.x - a.x), 2) + Math.Pow((b.y - a.y), 2));

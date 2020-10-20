@@ -2,9 +2,10 @@
 using System;
 using static RPGEngine2.EngineMain;
 
-namespace RPG.UI
+namespace CommonComponents.UI
 {
-    public class ControllerConnectedMessage : UIElementBase
+    // Originally created for 'RPG' project.
+    public class ControllerStatusMessage : UIElementBase
     {
         // Credit: Hayley Jane Wakenshaw, https://www.asciiart.eu/computers/game-consoles
         private readonly char[] GAMEBOY = new char[] {
@@ -18,13 +19,13 @@ namespace RPG.UI
         private readonly Vector2 MESSAGE_POSITION = new Vector2(7, 3);
         private const float ANIMATION_DURATION = 2;
         private const float POPUP_DURATION = 1.5f;
-        public string Message = "";
+        public string Message;
         public float DismissTimer;
         private float animationTimer = ANIMATION_DURATION;
         private Vector2 AnimationStartPosition;
         private Vector2 AnimationEndPosition;
 
-        public ControllerConnectedMessage()
+        public ControllerStatusMessage()
         {
             Size = new Vector2(35, 6);
             Position = new Vector2(0, -Size.y);
