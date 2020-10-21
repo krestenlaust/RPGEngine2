@@ -6,11 +6,11 @@ namespace BasicRPG.UI
     {
         public string Text;
 
-        public BasicTextbox(Vector2 Position, Vector2 Size, string BoxText)
+        public BasicTextbox(Vector2 position, Vector2 size, string boxText)
         {
-            this.Position = Position;
-            this.Size = Size;
-            this.Text = BoxText;
+            this.Position = position;
+            this.Size = size;
+            this.Text = boxText;
 
             ZIndex = byte.MaxValue;
         }
@@ -24,7 +24,6 @@ namespace BasicRPG.UI
                 if (Text.Length > i)
                 {
                     render[i] = Text[i];
-
                 }
                 else
                 {

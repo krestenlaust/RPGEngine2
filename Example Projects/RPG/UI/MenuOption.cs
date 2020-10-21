@@ -58,6 +58,9 @@ namespace RPG.UI
             {
                 for (int x = 0; x < Size.x; x++)
                 {
+                    int index = (int)Size.x * y + x;
+                    render[index] = ' ';
+
                     if (y != 2)
                         break;
                     if (x < TEXT_LEFT_MARGIN)
@@ -65,8 +68,6 @@ namespace RPG.UI
                     if (x - TEXT_LEFT_MARGIN >= ButtonText.Length)
                         break;
 
-
-                    int index = (int)Size.x * y + x;
                     render[index] = ButtonText[x - TEXT_LEFT_MARGIN];
                 }
             }

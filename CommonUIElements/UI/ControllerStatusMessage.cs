@@ -88,13 +88,16 @@ namespace CommonComponents.UI
                 }
             }
 
-            for (int i = 0; i < Message.Length; i++)
+            if (!(Message is null))
             {
-                Vector2 charPosition = new Vector2(i, 0) + MESSAGE_POSITION;
-                if (charPosition.x >= Size.RoundX)
-                    break;
+                for (int i = 0; i < Message.Length; i++)
+                {
+                    Vector2 charPosition = new Vector2(i, 0) + MESSAGE_POSITION;
+                    if (charPosition.x >= Size.RoundX)
+                        break;
 
-                render[charPosition.OneDimensional(Size.RoundX)] = Message[i];
+                    render[charPosition.OneDimensional(Size.RoundX)] = Message[i];
+                }
             }
 
             UIElementBase.DrawBorder(render, Size.RoundX, '#');

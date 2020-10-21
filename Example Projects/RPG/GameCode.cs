@@ -1,10 +1,10 @@
 ﻿using CommonComponents.UI;
 using RPG.GameObjects;
-using RPG.UI;
 using RPGEngine2;
 using RPGEngine2.InputSystem;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using static RPGEngine2.EngineMain;
 
 namespace RPG
@@ -12,8 +12,10 @@ namespace RPG
     // TODO: maybe play around with bullet-time?
     internal class GameCode
     {
-        public static readonly float MachineGunFireRate = 0.1f;//0.15f;
-        public static readonly float RPGFireRate = 0.25f;//0.3f;
+        public static readonly int MaxEnemies = 20;
+        public static readonly float SpawnInterval = 0.25f;
+        public static readonly float MachineGunFireRate = 0.05f;//0.15f;
+        public static readonly float RPGFireRate = 0.15f;//0.3f;
         public static Mouse Mouse;
         public static Keyboard Keyboard;
         public static Controller Controller;
@@ -22,6 +24,8 @@ namespace RPG
         public static List<Enemy> Enemies = new List<Enemy>();
         public static int BombsAlive;
         public static Random rand = new Random();
+        public static float spawnTimer;
+        public static int EnemyCount;
 
         private static ControllerStatusMessage popupMessage;
         private static readonly float movementSpeed = 19;
@@ -55,7 +59,7 @@ namespace RPG
             MainMenu.LoadMenu();
             MainMenu.isAnimating = true;
 
-            Renderer.VoidfillChar = '.';
+            //Renderer.VoidfillChar = '.';
         }
 
         public static void FixedUpdate()
@@ -76,22 +80,34 @@ namespace RPG
                 controllerDisconnectedPopup = false;
             }
 
+            
+
             if (MainMenu.MenuShown || PlayerObj is null)
                 return;
+
+            if (PlayerObj.HP < 0)
+            {
+                EngineStop();
+            }
 
             // Movement
             PlayerObj.Position += InputAxis.GetAxisVector() * FixedDeltaTime * movementSpeed * Vector2.ScreenRatio;
 
-            // Spawn enemies
-            if (Keyboard.ButtonDown(Keyboard.Key.P) || Controller.ButtonDown(Controller.Button.Y, PlayerControllerID))
-            {
-                Vector2 spawn = new Vector2(rand.Next(Console.WindowWidth), rand.Next(Console.WindowHeight));
+            spawnTimer -= FixedDeltaTime;
 
-                Progressbar newHealthbar = new Progressbar(6, '#', '\0');
-                Enemy newEnemy = new Enemy(newHealthbar, spawn);
-                Instantiate(newHealthbar);
-                Instantiate(newEnemy);
-                Enemies.Add(newEnemy);
+            if (EnemyCount < MaxEnemies)
+            {
+                // Spawn enemies
+                if (Keyboard.ButtonDown(Keyboard.Key.P) || Controller.ButtonDown(Controller.Button.Y, PlayerControllerID))
+                {
+                    SpawnEnemy();
+                }
+
+                if (spawnTimer < 0)
+                {
+                    SpawnEnemy();
+                    spawnTimer = SpawnInterval;
+                }
             }
 
             // Shooting
@@ -131,6 +147,18 @@ namespace RPG
                 Instantiate(new MachineGunBullet(PlayerObj.Position + Vector2.One, shootingDirection * 25));
                 machinegunFiretimer += MachineGunFireRate;
             }
+        }
+
+        private static void SpawnEnemy()
+        {
+            Vector2 spawn = new Vector2(rand.Next(Console.WindowWidth), rand.Next(Console.WindowHeight));
+
+            Progressbar newHealthbar = new Progressbar(6, '#', '\0');
+            Enemy newEnemy = new Enemy(newHealthbar, spawn);
+            Instantiate(newHealthbar);
+            Instantiate(newEnemy);
+            EnemyCount++;
+            Enemies.Add(newEnemy);
         }
 
         public static void Update()
