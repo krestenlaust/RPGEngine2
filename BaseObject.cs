@@ -20,6 +20,7 @@
         internal Vector2 InternalPosition;
         internal bool isDestroyed;
         protected Vector2 PositionOffset;
+
         public Vector2 Position
         {
             get => InternalPosition - PositionOffset;
@@ -37,7 +38,7 @@
         public abstract void Update();
 
         /// <summary>
-        /// Marks object for destruction. Is removed before next gameloop takes place.
+        /// Marks object for destruction. Removed before next gameloop-iteration.
         /// </summary>
         public virtual void Destroy()
         {

@@ -8,6 +8,7 @@ namespace RPG
     {
         public const float ANIMATE_SPEED = 0.4f;
         private const int DRAG_BUTTON_INDEX = 1;
+
         public string BoxText;
         private char BorderChar = '#';
         private int IndentedLetterIndex = 0;

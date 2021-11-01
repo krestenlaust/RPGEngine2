@@ -56,7 +56,7 @@
     <Compile Include="GameCode.cs" />
     <Compile Include="GameObjects\Rocket.cs" />
     <Compile Include="UI\AnimatedTextBox.cs" />
-    <Compile Include="GameObjects\Particles\RPGExplosion.cs" />
+    <Compile Include="GameObjects\Particles\RocketExplosion.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="UI\MenuOption.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

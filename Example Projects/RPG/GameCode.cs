@@ -15,7 +15,7 @@ namespace RPG
         public static readonly int MaxEnemies = 20;
         public static readonly float SpawnInterval = 0.25f;
         public static readonly float MachineGunFireRate = 0.05f;//0.15f;
-        public static readonly float RPGFireRate = 0.15f;//0.3f;
+        public static readonly float RocketFireRate = 0.15f;//0.3f;
         public static Mouse Mouse;
         public static Keyboard Keyboard;
         public static Controller Controller;
@@ -30,7 +30,7 @@ namespace RPG
         private static ControllerStatusMessage popupMessage;
         private static readonly float movementSpeed = 19;
         private static float machinegunFiretimer;
-        private static float rpgFiretimer;
+        private static float rocketFiretimer;
         private static bool stoppedVibration = true;
         private static bool controllerDisconnectedPopup = true;
 
@@ -80,10 +80,11 @@ namespace RPG
                 controllerDisconnectedPopup = false;
             }
 
-            
-
+            // Ignore game logic if menu is open.
             if (MainMenu.MenuShown || PlayerObj is null)
+            {
                 return;
+            }
 
             if (PlayerObj.HP < 0)
             {
@@ -115,7 +116,9 @@ namespace RPG
 
             if (Controller.isControllerConnected(PlayerControllerID))
             {
+                // Get shooting direction from joystick.
                 shootingDirection = Controller.ThumbstickValues(Controller.Thumbstick.Right, PlayerControllerID);
+
                 if (shootingDirection == Vector2.Zero)
                 {
                     shootingDirection = Controller.ThumbstickValues(Controller.Thumbstick.Left, PlayerControllerID);
@@ -123,21 +126,26 @@ namespace RPG
             }
             else
             {
+                // Get shooting direction from mouse position.
                 shootingDirection = (Mouse.Position - PlayerObj.Position).Normalize();
             }
 
             PlayerObj.LookingDirection = shootingDirection;
 
-
             if (machinegunFiretimer > 0)
+            {
                 machinegunFiretimer -= FixedDeltaTime;
-            if (rpgFiretimer > 0)
-                rpgFiretimer -= FixedDeltaTime;
+            }
 
-            if (rpgFiretimer <= 0 && (Mouse.ButtonDown(0) || Controller.ButtonDown(Controller.Button.RightShoulder, PlayerControllerID)))
+            if (rocketFiretimer > 0)
+            {
+                rocketFiretimer -= FixedDeltaTime;
+            }
+
+            if (rocketFiretimer <= 0 && (Mouse.ButtonDown(0) || Controller.ButtonDown(Controller.Button.RightShoulder, PlayerControllerID)))
             {
                 Instantiate(new Rocket(PlayerObj.Position + Vector2.One, shootingDirection * 12, 2));
-                rpgFiretimer += RPGFireRate;
+                rocketFiretimer += RocketFireRate;
                 BombsAlive++;
                 stoppedVibration = false;
             }
@@ -157,6 +165,7 @@ namespace RPG
             Enemy newEnemy = new Enemy(newHealthbar, spawn);
             Instantiate(newHealthbar);
             Instantiate(newEnemy);
+
             EnemyCount++;
             Enemies.Add(newEnemy);
         }

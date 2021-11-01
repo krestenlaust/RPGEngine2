@@ -6,6 +6,7 @@ namespace RPG.GameObjects.Particles
     {
         public DeathExplosion(Vector2 position)
         {
+            // Prepares a conways particle.
             InitialState = new bool[5, 5];
             InitialState[2, 0] = true;
             InitialState[2, 4] = true;

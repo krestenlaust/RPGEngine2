@@ -4,6 +4,10 @@ using static RPGEngine2.EngineMain;
 namespace RPGEngine2
 {
     // TODO: Needs proper profiling and improved performance.
+    /// <summary>
+    /// Particle system based on conways game of life.
+    /// Used to create explosion-like effects.
+    /// </summary>
     public abstract class Particle : GameObjectBase
     {
         private static readonly Dictionary<bool[,], bool[,]> conwaysCacheOfLife = new Dictionary<bool[,], bool[,]>();
@@ -22,9 +26,11 @@ namespace RPGEngine2
         /// </summary>
         public char CellAlive { get; set; }
         /// <summary>
-        /// Character that represents dead-cells. Typically ' ' or '\0' (for transparency).
+        /// Character that represents dead-cells.
+        /// Typically ' ' or '\0' (for transparency).
         /// </summary>
         public char CellDead { get; set; }
+
         protected float TickInterval;
         private float deltaTickTime;
         private int tickCount;
@@ -38,7 +44,9 @@ namespace RPGEngine2
         }
 
         /// <summary>
-        /// NOTE: Call base implementation for destruction of particle after animation. Called when the animation is finished, isn't triggered when <c>isLooping</c> is true. Called <i>just</i> before <c>Destroy()</c> is called.
+        /// NOTE: Call base implementation for destruction of particle after animation.
+        /// Called when the animation is finished, isn't triggered when <c>isLooping</c> is true.
+        /// Called <i>just</i> before <c>Destroy()</c> is called.
         /// </summary>
         public virtual void OnFinished()
         {

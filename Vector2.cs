@@ -108,6 +108,11 @@ namespace RPGEngine2
         private static readonly int[] Directional = new int[] { 1, 1, 0, -1, -1, -1, 0, 1 };
         private const int DIRECTIONAL_LEN = 8;
 
+        /// <summary>
+        /// Converts 2-dimensional index to 1-dimensional index.
+        /// </summary>
+        /// <param name="width"></param>
+        /// <returns></returns>
         public int OneDimensional(int width)
         {
             return width * (int)y + (int)x;
@@ -148,7 +153,7 @@ namespace RPGEngine2
         }
 
         /// <summary>
-        /// Get cardinal and 4 other neighbouring coordinates.
+        /// Get cardinally and diagonally neighbouring coordinates.
         /// </summary>
         /// <param name="vector"></param>
         /// <returns></returns>

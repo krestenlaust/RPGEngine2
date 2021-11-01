@@ -38,6 +38,7 @@ namespace RPG
         {
             MenuShown = false;
             isAnimating = false;
+            
             for (int i = 0; i < MainMenuButtons.Length; i++)
             {
                 MainMenuButtons[i].Active = false;
@@ -47,13 +48,14 @@ namespace RPG
         public static void EnableMenu()
         {
             MenuShown = true;
+            AnimationTime = 0;
+            isAnimating = true;
+
             for (int i = 0; i < MainMenuButtons.Length; i++)
             {
                 MainMenuButtons[i].Position = new Vector2(-BUTTON_WIDTH, MainMenuButtons[i].Position.y);
                 MainMenuButtons[i].Active = true;
             }
-            AnimationTime = 0;
-            isAnimating = true;
         }
 
         public static void LoadMenu()

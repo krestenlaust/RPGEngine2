@@ -18,10 +18,10 @@ namespace RPG.UI
 
         public MenuOption(string buttonText, Vector2 position, int optionWidth, Action onClick = null)
         {
-            this.ButtonText = buttonText;
-            this.Position = position;
-            this.Size = new Vector2(optionWidth, BoxHeight);
-            this.OnClick = onClick;
+            ButtonText = buttonText;
+            Position = position;
+            Size = new Vector2(optionWidth, BoxHeight);
+            OnClick = onClick;
 
             ZIndex = 110;
         }
@@ -62,11 +62,19 @@ namespace RPG.UI
                     render[index] = ' ';
 
                     if (y != 2)
+                    {
                         break;
+                    }
+
                     if (x < TEXT_LEFT_MARGIN)
+                    {
                         continue;
+                    }
+
                     if (x - TEXT_LEFT_MARGIN >= ButtonText.Length)
+                    {
                         break;
+                    }
 
                     render[index] = ButtonText[x - TEXT_LEFT_MARGIN];
                 }

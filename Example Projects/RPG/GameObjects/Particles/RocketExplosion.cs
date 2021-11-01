@@ -3,12 +3,13 @@ using static RPG.GameCode;
 
 namespace RPG
 {
-    public class RPGExplosion : Particle
+    public class RocketExplosion : Particle
     {
         public int Damage = 15;
 
-        public RPGExplosion(Vector2 position)
+        public RocketExplosion(Vector2 position)
         {
+            // Prepares conways particle.
             InitialState = new bool[5, 5];
             InitialState[2, 0] = true;
             InitialState[2, 4] = true;
@@ -47,7 +48,7 @@ namespace RPG
                     item.HP -= Damage;
                 }
             }
-            Controller.SetVibration(Rocket.ControllerRumble / 2, 0, PlayerControllerID);
+            Controller.SetVibration(Rocket.CONTROLLER_RUMBLE / 2, 0, PlayerControllerID);
             BombsAlive--;
 
             base.OnFinished();

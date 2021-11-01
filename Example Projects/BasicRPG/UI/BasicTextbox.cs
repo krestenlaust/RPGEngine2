@@ -8,9 +8,9 @@ namespace BasicRPG.UI
 
         public BasicTextbox(Vector2 position, Vector2 size, string boxText)
         {
-            this.Position = position;
-            this.Size = size;
-            this.Text = boxText;
+            Position = position;
+            Size = size;
+            Text = boxText;
 
             ZIndex = byte.MaxValue;
         }

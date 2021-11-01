@@ -7,6 +7,7 @@ namespace CommonComponents.UI
     {
         public const char LEFT_BORDER = '[';
         public const char RIGHT_BORDER = ']';
+
         public float Progress;
         public char Filled;
         public char Empty;
