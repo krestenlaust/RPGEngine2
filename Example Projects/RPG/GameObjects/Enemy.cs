@@ -41,6 +41,11 @@ namespace RPG.GameObjects
 
         public override void Update()
         {
+            if (MainMenu.MenuShown)
+            {
+                return;
+            }
+
             backedAway = false;
             Position += (GameCode.PlayerObj.Position - Position).Normalize() * DeltaTime * MOVE_SPEED * Vector2.ScreenRatio;
 

@@ -26,6 +26,7 @@ namespace RPG
         public static Random rand = new Random();
         public static float spawnTimer;
         public static int EnemyCount;
+        public static bool GamePaused = false;
 
         private static ControllerStatusMessage popupMessage;
         private static readonly float movementSpeed = 19;
@@ -92,7 +93,13 @@ namespace RPG
             }
 
             // Movement
-            PlayerObj.Position += InputAxis.GetAxisVector() * FixedDeltaTime * movementSpeed * Vector2.ScreenRatio;
+            Vector2 movementAxis = InputAxis.GetAxisVector();
+            if (movementAxis.Magnitude > 0.1f)
+            {
+                movementAxis = movementAxis.Normalize();
+            }
+
+            PlayerObj.Position += movementAxis * FixedDeltaTime * movementSpeed * Vector2.ScreenRatio;
 
             spawnTimer -= FixedDeltaTime;
 
@@ -116,13 +123,22 @@ namespace RPG
 
             if (Controller.isControllerConnected(PlayerControllerID))
             {
-                // Get shooting direction from joystick.
+                // Get shooting direction from right joystick.
                 shootingDirection = Controller.ThumbstickValues(Controller.Thumbstick.Right, PlayerControllerID);
 
+                // Not aiming while shooting?
                 if (shootingDirection == Vector2.Zero)
                 {
                     shootingDirection = Controller.ThumbstickValues(Controller.Thumbstick.Left, PlayerControllerID);
                 }
+
+                // Not moving?
+                if (shootingDirection == Vector2.Zero)
+                {
+                    shootingDirection = Vector2.Right;
+                }
+
+                shootingDirection = shootingDirection.Normalize();
             }
             else
             {
